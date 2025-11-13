@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURALINS - Aula: Segurança e Equipamentos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: IBM Plex Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Ícones (Feather Icons) -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        /* Customizando o placeholder */
+        .form-input::placeholder {
+            color: #6b7280;
+        }
+        /* Para os ícones Feather */
+        .icon {
+            width: 1.1rem;
+            height: 1.1rem;
+            stroke-width: 2.5px;
+        }
+        .icon-sm {
+            width: 1rem;
+            height: 1rem;
+            stroke-width: 2px;
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200 font-mono">
+
+    <!-- Navegação Pós-Login (Aluno) -->
+    <nav class="container mx-auto max-w-7xl flex justify-between items-center py-6 px-4 md:px-0">
+        <h1 class="text-3xl font-bold text-white">NEURALINS_</h1>
+        <div class="hidden md:flex items-center space-x-8 text-sm">
+            <a href="#" class="text-blue-400 hover:text-white transition-colors">Meus Cursos_</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors">Perfil_</a>
+            <a href="#" class="text-gray-500 hover:text-red-400 transition-colors">Sair</a>
+        </div>
+        <!-- Menu Mobile -->
+        <div class="md:hidden text-white text-2xl">
+            &#9776;
+        </div>
+    </nav>
+
+    <!-- Linha Divisória -->
+    <div class="container mx-auto max-w-7xl border-b border-blue-500/30"></div>
+
+    <!-- Conteúdo Principal: Página da Aula -->
+    <main class="container mx-auto max-w-7xl py-12 px-4">
+        
+        <!-- Grid Principal (Vídeo + Sidebar) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Coluna Principal (Vídeo e Descrição) -->
+            <div class="lg:col-span-2">
+                
+                <!-- Player de Vídeo (Placeholder) -->
+                <div class="relative aspect-video bg-gray-900 rounded-lg border border-blue-500/50 flex items-center justify-center">
+                    <!-- Ícone de Play -->
+                    <div class="text-gray-600">
+                        <i data-feather="play-circle" style="width: 80px; height: 80px; stroke-width: 1px;"></i>
+                    </div>
+                    <span class="absolute bottom-4 right-4 text-xs bg-black/50 text-white py-1 px-2 rounded">12:45</span>
+                </div>
+
+                <!-- Informações da Aula -->
+                <div class="mt-8">
+                    <h2 class="text-lg font-bold text-blue-400">[ QUÍMICA INDUSTRIAL ]</h2>
+                    <h1 class="text-3xl md:text-4xl font-bold text-white mt-2 mb-6">// 1.1 - Segurança e Equipamentos</h1>
+
+                    <!-- Info do Professor -->
+                    <div class="flex items-center space-x-4 pb-6 border-b border-gray-800">
+                        <img class="w-12 h-12 rounded-full border-2 border-blue-400" src="https://placehold.co/100x100/1e293b/93c5fd?text=Abel" alt="Professor Abel">
+                        <div>
+                            <h4 class="font-bold text-white">Professor Abel</h4>
+                            <p class="text-sm text-gray-400">Químico - Petrobrás</p>
+                        </div>
+                    </div>
+
+                    <!-- Descrição da Aula -->
+                    <div class="prose prose-invert max-w-none mt-6 text-gray-300 prose-p:text-gray-300 prose-headings:text-white">
+                        <h3 class="text-xl text-white">// Sobre esta aula</h3>
+                        <p>Nesta primeira aula, vamos cobrir os fundamentos essenciais de segurança no laboratório industrial. Este é o alicerce para todo o curso. Abordaremos os principais Equipamentos de Proteção Individual (EPIs), procedimentos de emergência e o manuseio correto de reagentes químicos.</p>
+                        <p>Certifique-se de baixar o PDF de "Normas de Segurança" anexado abaixo antes de prosseguir para a próxima aula.</p>
+                        
+                        <button class="bg-gray-700 text-white py-2 px-4 rounded-md text-sm font-bold hover:bg-gray-600 transition-colors flex items-center gap-2">
+                            <i data-feather="download" class="icon-sm"></i>
+                            Baixar PDF de Normas
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Coluna Lateral (Lista de Aulas/Módulos) -->
+            <aside class="lg:col-span-1">
+                <div class="bg-gray-900/50 p-6 rounded-lg border border-blue-500/50 sticky top-8">
+                    <h3 class="text-xl font-bold text-blue-400 mb-6 pb-4 border-b border-blue-500/30">// Conteúdo do Curso</h3>
+                    
+                    <div class="space-y-4">
+                        <!-- Módulo 1 -->
+                        <details class="space-y-3" open>
+                            <summary class="font-bold text-lg text-gray-100 cursor-pointer list-none flex justify-between items-center">
+                                Módulo 1: Fundamentos
+                            </summary>
+                            <ul class="pl-4 mt-2 space-y-2 border-l border-gray-700">
+                                <!-- Aula 1.1 (Ativa) -->
+                                <li>
+                                    <a href="#" class="flex items-center gap-3 p-3 rounded-md bg-blue-500/20 text-blue-300 font-bold transition-colors">
+                                        <i data-feather="play-circle" class="icon-sm text-blue-300"></i>
+                                        <span>1.1 - Segurança</span>
+                                    </a>
+                                </li>
+                                <!-- Aula 1.2 (Pendente) -->
+                                <li>
+                                    <a href="#" class="flex items-center gap-3 p-3 rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">
+                                        <i data-feather="circle" class="icon-sm text-gray-500"></i>
+                                        <span>1.2 - Tabela Periódica</span>
+                                    </a>
+                                </li>
+                                <!-- Aula 1.3 (Concluída) -->
+                                <li>
+                                    <a href="#" class="flex items-center gap-3 p-3 rounded-md text-green-400/80 hover:bg-gray-800 transition-colors line-through opacity-70">
+                                        <i data-feather="check-circle" class="icon-sm text-green-400"></i>
+                                        <span>1.3 - Conceitos (Já vista)</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </details>
+
+                        <!-- Módulo 2 -->
+                        <details class="space-y-3 pt-4 border-t border-gray-800">
+                            <summary class="font-bold text-lg text-gray-100 cursor-pointer list-none flex justify-between items-center">
+                                Módulo 2: Reações
+                            </summary>
+                             <ul class="pl-4 mt-2 space-y-2 border-l border-gray-700">
+                                <!-- Aula 2.1 (Bloqueada) -->
+                                <li>
+                                    <a href="#" class="flex items-center gap-3 p-3 rounded-md text-gray-600 cursor-not-allowed opacity-60">
+                                        <i data-feather="lock" class="icon-sm text-gray-600"></i>
+                                        <span>2.1 - Petroquímicos</span>
+                                    </a>
+                                </li>
+                                <!-- Aula 2.2 (Bloqueada) -->
+                                <li>
+                                    <a href="#" class="flex items-center gap-3 p-3 rounded-md text-gray-600 cursor-not-allowed opacity-60">
+                                        <i data-feather="lock" class="icon-sm text-gray-600"></i>
+                                        <span>2.2 - Síntese Orgânica</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </details>
+                    </div>
+
+                </div>
+            </aside>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-10 mt-16 border-t border-gray-800">
+        <p class="text-sm text-gray-500">[ NEURALINS v.2.1 ] // Copyright © 2077 // Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script para ativar os ícones -->
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

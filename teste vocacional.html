@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURALINS - Teste de Vocação</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: IBM Plex Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Ícones (Feather Icons) -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        /* Para os ícones Feather */
+        .icon {
+            width: 1.1rem;
+            height: 1.1rem;
+            stroke-width: 2.5px;
+        }
+        .icon-sm {
+            width: 1rem;
+            height: 1rem;
+            stroke-width: 2px;
+        }
+        /* Efeito de foco para as opções */
+        .option-btn:focus {
+            outline: none;
+            border-color: #3b82f6; /* blue-500 */
+            background-color: #1f2937; /* gray-800 */
+            box-shadow: 0 0 0 2px #2563eb; /* focus:ring-blue-600 */
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200 font-mono">
+
+    <!-- Navegação (Pública) -->
+    <nav class="container mx-auto max-w-7xl flex justify-between items-center py-6 px-4 md:px-0">
+        <h1 class="text-3xl font-bold text-white">NEURALINS_</h1>
+        <div class="hidden md:flex items-center space-x-8 text-sm">
+            <a href="#" class="text-gray-300 hover:text-white transition-colors">Sobre_</a>
+            <a href="#" class="text-blue-400 hover:text-white transition-colors">Cursos_</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors">Login_</a>
+        </div>
+        <!-- Menu Mobile -->
+        <div class="md:hidden text-white text-2xl">
+            &#9776;
+        </div>
+    </nav>
+
+    <!-- Linha Divisória -->
+    <div class="container mx-auto max-w-7xl border-b border-blue-500/30"></div>
+
+    <!-- Conteúdo Principal: Teste Vocacional -->
+    <main class="container mx-auto max-w-7xl py-12 px-4">
+        
+        <div class="max-w-3xl mx-auto">
+            <!-- Cabeçalho -->
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-blue-400 mb-4">[ TESTE DE VOCAÇÃO ]</h2>
+            <p class="text-center text-lg text-gray-400 mb-12">Descubra qual área da tecnologia combina com seu modo de pensar. Nosso teste analisa seu perfil e mostra o caminho ideal – do código à inovação.</p>
+
+            <!-- Card do Teste -->
+            <div class="bg-gray-900/50 p-6 md:p-10 rounded-lg shadow-lg border border-blue-500/50">
+                
+                <!-- Progresso -->
+                <p class="text-sm font-bold text-blue-400 mb-2">// Pergunta 1 de 10</p>
+                <!-- Pergunta -->
+                <h3 class="text-2xl font-bold text-white mb-8">Qual destes problemas você prefere resolver?</h3>
+
+                <!-- Opções de Resposta -->
+                <div class="space-y-4">
+                    <button class="option-btn w-full text-left p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-blue-400 hover:bg-gray-700 transition-all duration-150">
+                        <span class="font-bold text-blue-400 mr-3">[ A ]</span>
+                        <span class="text-gray-300">Organizar e analisar grandes volumes de dados para encontrar padrões.</span>
+                    </button>
+                    
+                    <button class="option-btn w-full text-left p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-blue-400 hover:bg-gray-700 transition-all duration-150">
+                        <span class="font-bold text-blue-400 mr-3">[ B ]</span>
+                        <span class="text-gray-300">Criar uma interface visual bonita e fácil de usar para um aplicativo.</span>
+                    </button>
+
+                    <button class="option-btn w-full text-left p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-blue-400 hover:bg-gray-700 transition-all duration-150">
+                        <span class="font-bold text-blue-400 mr-3">[ C ]</span>
+                        <span class="text-gray-300">Construir o sistema lógico que faz o aplicativo funcionar (servidores, APIs).</span>
+                    </button>
+
+                    <button class="option-btn w-full text-left p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-blue-400 hover:bg-gray-700 transition-all duration-150">
+                        <span class="font-bold text-blue-400 mr-3">[ D ]</span>
+                        <span class="text-gray-300">Proteger o sistema contra-ataques e garantir que ele fique sempre online.</span>
+                    </button>
+                </div>
+
+                <!-- Botão de Navegação -->
+                <div class="text-center border-t border-blue-500/30 pt-8 mt-10">
+                    <button type="submit" class="bg-blue-500 text-white font-bold py-3 px-10 rounded-lg text-lg hover:bg-blue-400 transition-colors duration-200">
+                        Próxima Pergunta >
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-10 mt-16 border-t border-gray-800">
+        <p class="text-sm text-gray-500">[ NEURALINS v.2.1 ] // Copyright © 2077 // Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script para ativar os ícones -->
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

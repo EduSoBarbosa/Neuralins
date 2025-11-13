@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>NEURALINS - Pesquisa de Cursos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: IBM Plex Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Ícones (Feather Icons) -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        /* Customizando o placeholder */
+        .form-input::placeholder {
+            color: #6b7280;
+        }
+        /* Para os ícones Feather */
+        .icon {
+            width: 1.1rem;
+            height: 1.1rem;
+            stroke-width: 2.5px;
+        }
+        .icon-sm {
+            width: 1rem;
+            height: 1rem;
+            stroke-width: 2px;
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200 font-mono">
+
+    <!-- Navegação (Pública) -->
+    <nav class="container mx-auto max-w-7xl flex justify-between items-center py-6 px-4 md:px-0">
+        <h1 class="text-3xl font-bold text-white">NEURALINS_</h1>
+        <div class="hidden md:flex items-center space-x-8 text-sm">
+            <a href="#" class="text-gray-300 hover:text-white transition-colors">Sobre_</a>
+            <a href="#" class="text-blue-400 hover:text-white transition-colors">Cursos_</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors">Login_</a>
+        </div>
+        <!-- Menu Mobile -->
+        <div class="md:hidden text-white text-2xl">
+            &#9776;
+        </div>
+    </nav
+
+    <!-- Linha Divisória -->
+    <div class="container mx-auto max-w-7xl border-b border-blue-500/30"></div>
+
+    <!-- Conteúdo Principal: Pesquisa e Grid de Cursos -->
+    <main class="container mx-auto max-w-7xl py-12 px-4">
+        
+        <!-- Cabeçalho da Seção -->
+        <div class="mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-blue-400 mb-4">[ EXPLORAR CURSOS ]</h2>
+            <p class="text-center text-lg text-gray-400">Pesquise em nosso banco de dados de conhecimento.</p>
+        </div>
+
+        <!-- Barra de Pesquisa -->
+        <div class="max-w-2xl mx-auto mb-16">
+            <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400">
+                    <i data-feather="search" class="icon"></i>
+                </span>
+                <input 
+                    type="search" 
+                    name="search" 
+                    id="search" 
+                    placeholder="Pesquisar por química, carreira, programação..." 
+                    class="form-input w-full bg-gray-800 border border-blue-500 text-white rounded-lg p-4 pl-12 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all">
+            </div>
+        </div>
+
+        <!-- Grid de Cursos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Card Curso 1: Química (Baseado na imagem) -->
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="aspect-video bg-gray-800 rounded mb-4 flex items-center justify-center">
+                        <img src="https://placehold.co/400x225/111827/000000?text=NEURALINS" alt="Capa do Curso" class="w-full h-full object-cover rounded">
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">// Química Industrial</h3>
+                    <p class="text-sm text-gray-400 mb-4">Desenvolva competências essenciais para atuar na interface entre ciência e indústria.</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-6 h-6 rounded-full border border-blue-400" src="https://placehold.co/40x40/1e293b/93c5fd?text=A" alt="Professor Abel">
+                            <span class="text-xs text-gray-300">Prof. Abel</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-feather="users" class="icon-sm"></i>
+                            127 Alunos
+                        </span>
+                    </div>
+                    <a href="#" class="mt-6 block w-full text-center bg-gray-800 text-blue-300 py-2 px-4 rounded-md text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        Ver Curso >
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Curso 2: Teste de Vocação (Baseado na imagem) -->
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="aspect-video bg-gray-800 rounded mb-4 flex items-center justify-center">
+                        <img src="https://placehold.co/400x225/111827/000000?text=NEURALINS" alt="Capa do Curso" class="w-full h-full object-cover rounded">
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">// Teste de Vocação</h3>
+                    <p class="text-sm text-gray-400 mb-4">Descubra qual área da tecnologia combina com seu modo de pensar.</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-6 h-6 rounded-full border border-blue-400" src="https://placehold.co/40x40/1e293b/93c5fd?text=N" alt="Neuralins AI">
+                            <span class="text-xs text-gray-300">Neuralins AI</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-feather="users" class="icon-sm"></i>
+                            4.5k Alunos
+                        </span>
+                    </div>
+                    <a href="#" class="mt-6 block w-full text-center bg-gray-800 text-blue-300 py-2 px-4 rounded-md text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        Iniciar Teste >
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Curso 3: Guias de Carreira (Baseado na imagem) -->
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="aspect-video bg-gray-800 rounded mb-4 flex items-center justify-center">
+                        <img src="https://placehold.co/400x225/111827/000000?text=NEURALINS" alt="Capa do Curso" class="w-full h-full object-cover rounded">
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">// Guias de Carreira</h3>
+                    <p class="text-sm text-gray-400 mb-4">Receba mentoria e guias de carreira personalizados de quem já trilhou o caminho.</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-6 h-6 rounded-full border border-blue-400" src="https://placehold.co/40x40/1e293b/93c5fd?text=V" alt="Vários Mentores">
+                            <span class="text-xs text-gray-300">Vários Mentores</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-feather="users" class="icon-sm"></i>
+                            830 Alunos
+                        </span>
+                    </div>
+                    <a href="#" class="mt-6 block w-full text-center bg-gray-800 text-blue-300 py-2 px-4 rounded-md text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        Ver Guias >
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Curso 4: Novo Curso (Exemplo) -->
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="aspect-video bg-gray-800 rounded mb-4 flex items-center justify-center">
+                        <img src="https://placehold.co/400x225/111827/000000?text=NEURALINS" alt="Capa do Curso" class="w-full h-full object-cover rounded">
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">// Python para Análise de Dados</h3>
+                    <p class="text-sm text-gray-400 mb-4">Aprenda a manipular e visualizar dados usando Pandas, Matplotlib e Seaborn.</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-6 h-6 rounded-full border border-blue-400" src="https://placehold.co/40x40/1e293b/93c5fd?text=C" alt="Professora Clara">
+                            <span class="text-xs text-gray-300">Profa. Clara</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-feather="users" class="icon-sm"></i>
+                            512 Alunos
+                        </span>
+                    </div>
+                    <a href="#" class="mt-6 block w-full text-center bg-gray-800 text-blue-300 py-2 px-4 rounded-md text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        Ver Curso >
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Curso 5: Novo Curso (Exemplo) -->
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="aspect-video bg-gray-800 rounded mb-4 flex items-center justify-center">
+                        <img src="https://placehold.co/400x225/111827/000000?text=NEURALINS" alt="Capa do Curso" class="w-full h-full object-cover rounded">
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">// Gestão de Projetos Tech</h3>
+                    <p class="text-sm text-gray-400 mb-4">Domine metodologias Ágeis, Scrum e Kanban para liderar equipes de tecnologia.</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-6 h-6 rounded-full border border-blue-400" src="https://placehold.co/40x40/1e293b/93c5fd?text=R" alt="Professor Ricardo">
+                            <span class="text-xs text-gray-300">Prof. Ricardo</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-feather="users" class="icon-sm"></i>
+                            239 Alunos
+                        </span>
+                    </div>
+                    <a href="#" class="mt-6 block w-full text-center bg-gray-800 text-blue-300 py-2 px-4 rounded-md text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        Ver Curso >
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Curso 6: Novo Curso (Exemplo) -->
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="aspect-video bg-gray-800 rounded mb-4 flex items-center justify-center">
+                        <img src="https://placehold.co/400x225/111827/000000?text=NEURALINS" alt="Capa do Curso" class="w-full h-full object-cover rounded">
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">// Design de Interface (UI/UX)</h3>
+                    <p class="text-sm text-gray-400 mb-4">Crie interfaces funcionais e visualmente atraentes com foco no usuário.</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-6 h-6 rounded-full border border-blue-400" src="https://placehold.co/40x40/1e293b/93c5fd?text=L" alt="Professora LIA">
+                            <span class="text-xs text-gray-300">Profa. Lia</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-feather="users" class="icon-sm"></i>
+                            776 Alunos
+                        </span>
+                    </div>
+                    <a href="#" class="mt-6 block w-full text-center bg-gray-800 text-blue-300 py-2 px-4 rounded-md text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        Ver Curso >
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-10 mt-16 border-t border-gray-800">
+        <p class="text-sm text-gray-500">[ NEURALINS v.2.1 ] // Copyright © 2077 // Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script para ativar os ícones -->
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
