@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Augmented Ai-->
+    <link rel="stylesheet" href="https://unpkg.com/augmented-ui/augmented-ui.min.css">
+    <!-- Fonte Futurista -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <!-- CSS-->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-black text-gray-200 font-[Orbitron] min-h-screen flex flex-col">
+  <!-- Header -->
+  <header 
+    class="flex justify-between items-center p-6 border-b border-fuchsia-700 bg-black/70"
+    augmented-ui="tl-clip br-clip both"
+  >
+    <h1 class="text-3xl text-fuchsia-400 tracking-widest">NEURALINS</h1>
+    <nav class="flex gap-8">
+      <a href="#" class="nav-b hover:text-fuchsia-400 transition-all">Início</a>
+      <a href="Login.html" class="nav-b hover:text-fuchsia-400 transition-all">Alunos</a>
+      <a href="Login.html" class="nav-b hover:text-fuchsia-400 transition-all">Professores</a>
+      <a href="#" class="nav-b hover:text-fuchsia-400 transition-all">Sobre</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-grow flex flex-col justify-center items-center text-center px-6">
+    <h2 class="text-5xl text-fuchsia-500 mb-6" augmented-ui="tl-clip br-clip both">
+      Conecte Mentes. Transforme o Futuro.
+    </h2>
+    <p class="text-lg text-gray-400 max-w-2xl mb-10">
+      A <span class="text-fuchsia-400">Neuralins</span> é a ponte digital entre alunos e professores —
+      onde aprendizado e tecnologia se encontram em perfeita sincronia.
+    </p>
+    <div class="flex gap-6">
+      <button class="px-6 py-3 bg-fuchsia-600 text-black font-semibold rounded-xl hover:bg-fuchsia-400 transition-all">
+        Entrar
+      </button>
+      <button class="px-6 py-3 border border-fuchsia-500 text-fuchsia-400 rounded-xl hover:bg-fuchsia-500 hover:text-black transition-all">
+        Cadastrar
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-4 border-t border-fuchsia-800 text-gray-500 text-sm">
+    © 2025 Neuralins — Educação, Tecnologia e Conexão.
+  </footer>
+</body>
+
+</html>
