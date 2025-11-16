@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURALINS - O Futuro da Conexão</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: IBM Plex Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Ícones (Feather Icons) -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="./styles/style.css">
+   
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        /* Para os ícones Feather */
+        .icon {
+            width: 1.1rem;
+            height: 1.1rem;
+            stroke-width: 2.5px;
+        }
+        .icon-sm {
+            width: 1rem;
+            height: 1rem;
+            stroke-width: 2px;
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200 font-mono">
+
+    <!-- Navegação (Pública) -->
+    <nav class="container mx-auto max-w-7xl flex justify-between items-center py-6 px-4 md:px-0">
+        <h1 class="text-3xl font-bold text-white">NEURALINS_</h1>
+        <div class="hidden md:flex items-center space-x-8 text-sm">
+            <a href="cursos.html" class="text-gray-300 hover:text-white transition-colors">Cursos_</a>
+            <a href="mentoria.html" class="text-gray-300 hover:text-white transition-colors">Mentorias_</a>
+            <a href="teste vocacional.html" class="text-gray-300 hover:text-white transition-colors">Teste de Vocação_</a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors">Sobre_</a>
+            <a href="login.html" class="text-gray-300 hover:text-white transition-colors">Login_</a>
+            <a href="login.html" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400 transition-colors text-xs font-bold">[ Começar Agora > ]</a>
+        </div>
+        <!-- Menu Mobile -->
+        <div class="md:hidden text-white text-2xl">
+            &#9776;
+        </div>
+    </nav>
+
+    <!-- Linha Divisória -->
+    <div class="container mx-auto max-w-7xl border-b border-blue-500/30"></div>
+
+    <!-- Seção Hero -->
+    <header class="container mx-auto max-w-7xl py-24 md:py-40 px-4 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold text-blue-400 mb-4">[ O FUTURO DA CONEXÃO ]</h2>
+        <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">ALUNO-PROFESSOR</h1>
+        <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10">Uma plataforma de tutoria e mentoria onde professores e alunos experientes oferecem cursos e guias de carreira para a <span class="text-white">próxima geração</span>.</p>
+        <a href="cursos.html" class="bg-gray-200 text-gray-900 font-bold py-3 px-10 rounded-lg text-lg hover:bg-white transition-colors duration-200">
+            Encontre seu mentor >
+        </a>
+    </header>
+
+    <!-- Seção Pilares -->
+    <section class="container mx-auto max-w-7xl py-16 px-4">
+        <h2 class="text-3xl font-bold text-center text-white mb-12">[ NOSSOS PILARES DE CONEXÃO ]</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Pilar 1: Cursos -->
+            <a href="cursos.html" class="block bg-gray-900/50 p-6 rounded-lg border border-blue-500/50 hover:border-blue-400 transition-colors group">
+                <h3 class="text-xl font-bold text-blue-400 mb-3">// Cursos</h3>
+                <p class="text-sm text-gray-400 group-hover:text-white transition-colors">Acesse cursos especializados e sessões de tutoria individuais ministradas por professores verificados sistematicamente.</p>
+            </a>
+            <!-- Pilar 2: Teste de Vocação -->
+            <a href="teste_vocacional.html" class="block bg-gray-900/50 p-6 rounded-lg border border-blue-500/50 hover:border-blue-400 transition-colors group">
+                <h3 class="text-xl font-bold text-blue-400 mb-3">// Teste de Vocação</h3>
+                <p class="text-sm text-gray-400 group-hover:text-white transition-colors">Descubra qual área da tecnologia combina com seu modo de pensar. Nosso teste analisa seu perfil e mostra o caminho ideal.</p>
+            </a>
+            <!-- Pilar 3: Guias de Carreira -->
+            <a href="mentoria.html" class="block bg-gray-900/50 p-6 rounded-lg border border-blue-500/50 hover:border-blue-400 transition-colors group">
+                <h3 class="text-xl font-bold text-blue-400 mb-3">// Guias de Carreira</h3>
+                <p class="text-sm text-gray-400 group-hover:text-white transition-colors">Receba mentoria e guias de carreira personalizados de quem já trilhou o caminho. Encontre sua vocação e planeje seus próximos passos.</p>
+            </a>
+            <!-- Pilar 4: Rede de Conhecimento -->
+            <a href="#" class="block bg-gray-900/50 p-6 rounded-lg border border-blue-500/50 hover:border-blue-400 transition-colors group">
+                <h3 class="text-xl font-bold text-blue-400 mb-3">// Rede de Conhecimento</h3>
+                <p class="text-sm text-gray-400 group-hover:text-white transition-colors">Uma plataforma segura e direta. Construímos a ponte entre a dúvida e o conhecimento, eliminando ruídos e conectando você ao futuro.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Seção Cursos em Destaque -->
+    <section class="container mx-auto max-w-7xl py-16 px-4">
+        <h2 class="text-3xl font-bold text-center text-white mb-4">[ CURSOS EM DESTAQUE ]</h2>
+        <p class="text-center text-lg text-gray-400 mb-12">Conhecimento gratuito e de alta qualidade para sua carreira.</p>
+        
+        <!-- Grid de Cursos (Reutilizado de neuralins_pesquisa_cursos.html) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Card Curso 1: Química (Baseado na imagem) -->
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="aspect-video bg-gray-800 rounded mb-4">
+                        <img src="https://placehold.co/400x225/111827/1e40af?text=Química" alt="Capa Química Industrial" class="w-full h-full object-cover rounded">
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">// Química Industrial</h3>
+                    <p class="text-sm text-gray-400 mb-4">Desenvolva competências essenciais para atuar na interface entre ciência e indústria.</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-6 h-6 rounded-full border border-blue-400" src="https://placehold.co/40x40/1e293b/93c5fd?text=A" alt="Professor Abel">
+                            <span class="text-xs text-gray-300">Prof. Abel</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-feather="users" class="icon-sm"></i>
+                            127 Alunos
+                        </span>
+                    </div>
+                    <a href="curso.html" class="mt-6 block w-full text-center bg-gray-800 text-blue-300 py-2 px-4 rounded-md text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        Começar a Aprender >
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Curso 2: Python (Exemplo) -->
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="aspect-video bg-gray-800 rounded mb-4">
+                        <img src="https://placehold.co/400x225/111827/1e40af?text=Python" alt="Capa Python" class="w-full h-full object-cover rounded">
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">// Python para Análise de Dados</h3>
+                    <p class="text-sm text-gray-400 mb-4">Aprenda a manipular e visualizar dados usando Pandas, Matplotlib e Seaborn.</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-6 h-6 rounded-full border border-blue-400" src="https://placehold.co/40x40/1e293b/93c5fd?text=C" alt="Professora Clara">
+                            <span class="text-xs text-gray-300">Profa. Clara</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-feather="users" class="icon-sm"></i>
+                            512 Alunos
+                        </span>
+                    </div>
+                    <a href="#" class="mt-6 block w-full text-center bg-gray-800 text-blue-300 py-2 px-4 rounded-md text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        Começar a Aprender >
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Curso 3: UI/UX (Exemplo) -->
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/50 transition-all group flex flex-col justify-between">
+                <div>
+                    <div class="aspect-video bg-gray-800 rounded mb-4">
+                        <img src="https://placehold.co/400x225/111827/1e40af?text=UI/UX" alt="Capa UI/UX" class="w-full h-full object-cover rounded">
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">// Design de Interface (UI/UX)</h3>
+                    <p class="text-sm text-gray-400 mb-4">Crie interfaces funcionais e visualmente atraentes com foco no usuário.</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-6 h-6 rounded-full border border-blue-400" src="https://placehold.co/40x40/1e293b/93c5fd?text=L" alt="Professora LIA">
+                            <span class="text-xs text-gray-300">Profa. Lia</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-feather="users" class="icon-sm"></i>
+                            776 Alunos
+                        </span>
+                    </div>
+                    <a href="#" class="mt-6 block w-full text-center bg-gray-800 text-blue-300 py-2 px-4 rounded-md text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        Começar a Aprender >
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12">
+            <a href="cursos.html" class="text-blue-400 font-bold hover:text-white transition-colors">
+                [ Ver todos os cursos > ]
+            </a>
+        </div>
+    </section>
+
+    <!-- Seção Mentoria Destaque -->
+    <section class="container mx-auto max-w-7xl py-16 px-4">
+        <div class="bg-gray-900/50 rounded-lg border border-blue-500/50 overflow-hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 items-center">
+                <!-- Imagem -->
+                <div class="relative aspect-square md:aspect-auto md:h-full bg-gray-900 flex items-center justify-center">
+                    <img class="w-full h-full object-cover" src="https://placehold.co/600x600/1e293b/93c5fd?text=Abel" alt="Professor Abel">
+                </div>
+                <!-- Conteúdo -->
+                <div class="p-8 md:p-12">
+                    <h2 class="text-lg font-bold text-blue-400 mb-3">[ MENTORIA INDIVIDUAL ]</h2>
+                    <h3 class="text-3xl font-bold text-white mb-4">// Alavanque sua Carreira em Química Industrial</h3>
+                    <p class="text-gray-400 mb-6">Uma sessão individual com o Professor Abel para diagnosticar sua carreira e planejar seus próximos passos na indústria.</p>
+                    <ul class="space-y-3 text-gray-300 mb-8">
+                        <li class="flex items-start gap-3">
+                            <i data-feather="check-circle" class="icon-sm text-blue-400 flex-shrink-0 mt-1"></i>
+                            <span>Análise de Currículo e LinkedIn.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-feather="check-circle" class="icon-sm text-blue-400 flex-shrink-0 mt-1"></i>
+                            <span>Preparação para Entrevistas Técnicas.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-feather="check-circle" class="icon-sm text-blue-400 flex-shrink-0 mt-1"></i>
+                            <span>Plano de Carreira e Certificações.</span>
+                        </li>
+                    </ul>
+                    <a href="mentoria.html" class="bg-blue-500 text-white font-bold py-3 px-6 rounded-lg text-base hover:bg-blue-400 transition-colors duration-200">
+                        Agendar Sessão >
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Aluno vs Professor -->
+    <section class="container mx-auto max-w-7xl py-16 px-4">
+        <h2 class="text-3xl font-bold text-center text-white mb-12">[ UMA PLATAFORMA PARA DOIS CAMINHOS ]</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Aluno -->
+            <div class="bg-gray-900/50 p-8 rounded-lg border border-gray-700">
+                <h3 class="text-2xl font-bold text-gray-100 mb-4">// VOCÊ É ALUNO?</h3>
+                <p class="text-gray-400 mb-6">Aprenda com os melhores, de graça. Encontre cursos e guias que aceleram sua entrada no mercado.</p>
+                <a href="cursos.html" class="bg-gray-200 text-gray-900 font-bold py-3 px-6 rounded-lg text-base hover:bg-white transition-colors duration-200">
+                    Começar a Aprender >
+                </a>
+            </div>
+            <!-- Professor -->
+            <div class="bg-gray-900/50 p-8 rounded-lg border border-blue-500/50">
+                <h3 class="text-2xl font-bold text-blue-400 mb-4">// VOCÊ É PROFESSOR?</h3>
+                <p class="text-gray-400 mb-6">Compartilhe seu conhecimento. Crie cursos, ofereça mentorias e gerencie seus alunos em um painel completo.</p>
+                <a href="registro.html" class="bg-blue-500 text-white font-bold py-3 px-6 rounded-lg text-base hover:bg-blue-400 transition-colors duration-200">
+                    Quero ser Mentor >
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção CTA Final -->
+    <section class="container mx-auto max-w-7xl py-24 px-4 text-center">
+        <h2 class="text-4xl font-bold text-white mb-6">[ CONECTE-SE AO FUTURO ]</h2>
+        <p class="text-lg text-gray-400 max-w-lg mx-auto mb-10">Junte-se à NEURALINS hoje. O conhecimento que você procura está a um login de distância.</p>
+        <a href="login.html" class="bg-gray-200 text-gray-900 font-bold py-3 px-10 rounded-lg text-lg hover:bg-white transition-colors duration-200">
+            Criar minha conta gratuita >
+        </a>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="text-center py-10 mt-16 border-t border-gray-800">
+        <p class="text-sm text-gray-500">[ NEURALINS v.2.1 ] // Copyright © 2077 // Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script para ativar os ícones -->
+    <script>
+        feather.replace();
+    </script>
+     <script src="/Scripts/login.js"></script>
+</body>
+</html>
