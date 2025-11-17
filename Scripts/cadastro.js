@@ -1,78 +1,149 @@
-function handleRegistration(event, role) {
-    event.preventDefault(); // Impede o envio padrão do formulário e o recarregamento
+/** FUNÇÕES DE UTILIDADE E INTERFACE (Comum a todas as páginas)
 
-    // 1. Coleta dos dados baseados na função (role)
-    let nome, email, senha, campoExtra, campoExtraValue, redirectPage;
-
-    if (role === 'aluno') {
-        nome = document.getElementById('aluno_nome').value.trim();
-        email = document.getElementById('aluno_email').value.trim();
-        senha = document.getElementById('aluno_senha').value;
-        campoExtra = 'curso';
-        campoExtraValue = document.getElementById('aluno_curso').value.trim();
-        redirectPage = 'aluno.html';
-    } else if (role === 'professor') {
-        nome = document.getElementById('prof_nome').value.trim();
-        email = document.getElementById('prof_email').value.trim();
-        senha = document.getElementById('prof_senha').value;
-        campoExtra = 'areaAtuacao';
-        campoExtraValue = document.getElementById('prof_area').value.trim();
-        redirectPage = 'professor.html';
-    }
-
-    // 2. Validação Básica
-    if (!nome || !email || !senha || !campoExtraValue) {
-        // Usamos um modal ou mensagem de erro customizada em vez de alert()
-        console.error('Por favor, preencha todos os campos do formulário.');
-        alert('Erro no cadastro: Por favor, preencha todos os campos.');
-        return;
-    }
-
-    // 3. Simulação de Banco de Dados (allUsers no localStorage)
-    let allUsers = JSON.parse(localStorage.getItem('allUsers')) || {};
-
-    // Verifica se o e-mail já existe
-    if (allUsers[email]) {
-        alert('Este e-mail já está cadastrado. Por favor, faça login.');
-        window.location.href = 'login.html';
-        return;
-    }
-
-    // 4. Criação do Objeto Usuário
-    const newUser = {
-        nome: nome,
-        email: email,
-        senha: senha, // Lembre-se, em produção, NUNCA armazene senhas sem hash!
-        role: role,
-    };
-    newUser[campoExtra] = campoExtraValue; // Adiciona o campo extra (curso ou areaAtuacao)
-
-    // Adiciona o novo usuário ao "banco de dados"
-    allUsers[email] = newUser;
-    localStorage.setItem('allUsers', JSON.stringify(allUsers));
-
-    // 5. Autenticação Imediata (Sessão)
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userRole', role);
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userName', nome);
-
-    // 6. Redirecionamento
-    console.log(`Usuário ${nome} (${email}) cadastrado com sucesso como ${role}. Redirecionando...`);
-    alert(`Bem-vindo(a) ao NEURALINS, ${nome}! Seu cadastro foi finalizado com sucesso. Você será redirecionado para o seu painel.`);
-    window.location.href = redirectPage;
+/**
+ * Gera as iniciais de um nome (máximo de 2 letras).
+ * @param {string} s O nome do usuário.
+ * @returns {string} As iniciais em maiúsculas ou 'U' se vazio.
+ */
+function initialsFrom(s){ 
+    s = (s || '').trim(); 
+    // Se houver espaço, pega a primeira letra das duas primeiras palavras. Se não, pega a primeira letra.
+    return s ? (s.includes(' ')? s.split(' ').slice(0,2).map(w=>w[0]).join(''): s[0]).toUpperCase() : 'U'; 
 }
 
-// --- Event Listeners para os Formulários ---
+/**
+ * Verifica o status de login (via localStorage) e atualiza a interface
+ * (mostra link de login OU ícone do usuário).
+ */
+function verificarStatusLogin(){
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
 
-// Aluno
-const alunoForm = document.getElementById('alunoRegistrationForm');
-if (alunoForm) {
-    alunoForm.addEventListener('submit', (e) => handleRegistration(e, 'aluno'));
+    // Checagem segura de elementos (Eles só existem na Index/Páginas internas)
+    const linkLogin = document.getElementById('link-login');
+    const userBox = document.getElementById('user-box');
+    const userIcon = document.getElementById('user-icon');
+    const dropdownUsername = document.getElementById('dropdown-username');
+
+    if (usuarioLogado) {
+        // Logado: Esconde o link de login e mostra o box do usuário
+        if (linkLogin) linkLogin.style.display = 'none';
+        // Usamos setProperty para garantir que o 'display: flex' seja prioritário
+        if (userBox) userBox.style.setProperty('display', 'flex', 'important'); 
+        if (userIcon) userIcon.textContent = initialsFrom(usuarioLogado);
+        if (dropdownUsername) dropdownUsername.textContent = usuarioLogado;
+
+    } else {
+        // Deslogado: Mostra o link de login e esconde o box do usuário
+        if (linkLogin) linkLogin.style.display = 'inline-block';
+        if (userBox) userBox.style.setProperty('display', 'none', 'important');
+    }
 }
 
-// Professor
-const professorForm = document.getElementById('professorRegistrationForm');
-if (professorForm) {
-    professorForm.addEventListener('submit', (e) => handleRegistration(e, 'professor'));
+/**
+ * Remove a sessão e redireciona para a página de login.
+ * Exposta ao window para ser usada no HTML (onclick="logout()").
+ */
+window.logout = function() {
+    localStorage.removeItem('usuarioLogado');
+    localStorage.removeItem('justLoggedIn');
+    // Usa replace para impedir que o usuário volte para a página anterior com o botão Voltar
+    window.location.replace("login.html"); 
 }
+
+/**
+ * Exibe o pop-up de boas-vindas após o login/cadastro.
+ * @param {string} username O nome do usuário para exibir na mensagem.
+ */
+function showWelcomePopup(username) {
+    const popup = document.getElementById('welcome-popup');
+    const overlay = document.getElementById('popup-overlay');
+    const usernameElement = document.getElementById('welcome-username');
+
+    // Checagem de segurança
+    if (!popup || !overlay || !usernameElement) {
+        return; 
+    }
+
+    usernameElement.textContent = username;
+    popup.style.display = 'block';
+    overlay.style.display = 'block';
+
+    // Fecha automaticamente após 5 segundos
+    setTimeout(closeWelcomePopup, 5000);
+}
+
+/**
+ * Fecha o pop-up de boas-vindas.
+ */
+function closeWelcomePopup() {
+    const popup = document.getElementById('welcome-popup');
+    const overlay = document.getElementById('popup-overlay');
+
+    if (popup && overlay) {
+        popup.style.display = 'none';
+        overlay.style.display = 'none';
+    }
+}
+
+/**
+ * Alterna a visibilidade do dropdown do usuário.
+ * Exposta ao window para ser usada no HTML (onclick="toggleUserDropdown(event)").
+ * @param {Event} event O evento de clique.
+ */
+window.toggleUserDropdown = function(event) {
+    if(event) event.stopPropagation();
+
+    const dropdown = document.getElementById('user-dropdown');
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
+    
+    // Só abre se o dropdown existir E houver um usuário logado
+    if (!dropdown || !usuarioLogado) {
+        return;
+    }
+
+    const currentDisplay = window.getComputedStyle(dropdown).display;
+
+    if (currentDisplay === 'block') {
+        dropdown.style.setProperty('display', 'none', 'important');
+    } else {
+        dropdown.style.setProperty('display', 'block', 'important');
+    }
+}
+
+
+// === INICIALIZAÇÃO E LISTENERS ===
+
+// Executa a verificação de status em qualquer página
+document.addEventListener('DOMContentLoaded', verificarStatusLogin);
+
+// Listener para fechar o dropdown ao clicar fora
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('user-dropdown');
+    const userBox = document.getElementById('user-box');
+
+    // Checa se o dropdown existe, a caixa do usuário existe, e o clique foi fora da caixa.
+    if (dropdown && userBox && !userBox.contains(event.target)) {
+        const currentDisplay = window.getComputedStyle(dropdown).display;
+        if (currentDisplay === 'block') {
+            dropdown.style.setProperty('display', 'none', 'important');
+        }
+    }
+});
+
+// Listener para exibir o popup após o login e configurar o overlay
+document.addEventListener('DOMContentLoaded', function() {
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
+    const justLoggedIn = localStorage.getItem('justLoggedIn');
+    const overlay = document.getElementById('popup-overlay');
+    
+    if (overlay) {
+        // Permite fechar o popup clicando no overlay
+        overlay.addEventListener('click', closeWelcomePopup); 
+    }
+
+    // Se acabou de logar e tem um usuário salvo, mostra o pop-up e limpa a flag
+    if (justLoggedIn === 'true' && usuarioLogado) {
+        showWelcomePopup(usuarioLogado);
+        localStorage.removeItem('justLoggedIn');
+    }
+});
