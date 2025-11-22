@@ -10,6 +10,6 @@ O projeto tem como meta direcionar os que estão no processo de entrar no mercad
 
 Nosso projeto tem como base os Objetivos de Desenvolvimento Sustentável (ODS) da ONU:
 
-ODS 4 - Educação de Qualidade
+**ODS 4 -** Educação de Qualidade
 
-ODS 8 – Trabalho decente e crescimento econômico
+**ODS 8 –** Trabalho decente e crescimento econômico
