@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Neuralins</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos base (copiados de register.html) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #1F2937;
+        }
+        :root {
+            --neuralins-blue: #00A9FF;
+            --neuralins-glow: #00CFFF;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .glass-nav {
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 169, 255, 0.25);
+        }
+        
+        /* Bloco do formulário "glass" (copiado de register.html) */
+        .illuminated-block {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 169, 255, 0.25);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 169, 255, 0.1);
+            border-radius: 1rem;
+        }
+        
+        /* Efeitos de hover (copiado de register.html) */
+        .neon-shadow-hover:hover {
+            box-shadow: 0 0 15px 0 rgba(0, 169, 255, 0.3), 0 0 5px 0 rgba(0, 169, 255, 0.2);
+        }
+        .neon-text-hover:hover {
+            text-shadow: 0 0 8px rgba(0, 207, 255, 0.5);
+            color: var(--neuralins-blue);
+        }
+
+        /* Estilos de formulário (copiado de register.html) */
+        .form-input {
+            background-color: #F3F4F6;
+            border: 1px solid #E5E7EB;
+            color: #1F2937;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--neuralins-blue);
+            box-shadow: 0 0 0 3px rgba(0, 169, 255, 0.2);
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Canvas de Fundo 3D -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Wrapper de Conteúdo -->
+    <div class="relative z-10">
+
+        <!-- 1. NAVBAR (Igual) -->
+        <header class="fixed top-0 left-0 right-0 z-50 glass-nav">
+            <nav class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex justify-between items-center">
+                <!-- Logo -->
+                <a href="home.html" class="flex items-center gap-2 text-2xl font-bold text-gray-900 tracking-wide neon-text-hover transition-all duration-300">
+                    <img src="./image-removebg-preview%20copy.png" alt="Logo Neuralins" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/48x48/F9FAFB/00A9FF?text=N'">
+                    <span>Neuralins</span>
+                </a>
+                
+                <!-- Itens do Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="login.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Login</a>
+                    <a href="cadastro.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Registrar</a>
+                </div>
+                
+                <!-- Menu Mobile (Ícone) -->
+                <div class="md:hidden">
+                    <button class="text-gray-700 hover:text-[var(--neuralins-blue)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <!-- 2. SESSÃO DE LOGIN -->
+            <section class="min-h-screen flex items-center justify-center pt-20 py-12 px-4 sm:px-6 lg:px-8">
+                
+                <!-- O "bloco iluminado" que contém o formulário -->
+                <div class="illuminated-block w-full max-w-md p-8 md:p-10 space-y-6">
+                    
+                    <!-- Título -->
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-gray-900">
+                            Acesse sua Conta
+                        </h2>
+                        <p class="mt-2 text-gray-600">
+                            Bem-vindo de volta!
+                        </p>
+                    </div>
+
+                    <!-- Formulário de Login -->
+                    <form id="login-form" class="space-y-5">
+                        <!-- Campo de Email -->
+                        <div>
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="voce@exemplo.com" required>
+                        </div>
+                        
+                        <!-- Campo de Senha -->
+                        <div>
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+                        </div>
+
+                        <!-- Opções (Lembrar / Esqueceu) -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-[var(--neuralins-blue)] focus:ring-[var(--neuralins-blue)] border-gray-300 rounded">
+                                <label for="remember-me" class="ml-2 block text-sm text-gray-700">
+                                    Lembrar-me
+                                </label>
+                            </div>
+
+                            <div class="text-sm">
+                                <a href="#" class="font-medium text-[var(--neuralins-blue)] hover:underline">
+                                    Esqueceu a senha?
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Botão de Login -->
+                        <div>
+                            <button type="submit" class="w-full mt-2 px-8 py-3 rounded-lg font-semibold text-black bg-[var(--neuralins-glow)] transition-all duration-300 neon-shadow-hover hover:bg-white hover:shadow-lg">
+                                Entrar
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Link para Registro -->
+                    <p class="text-center text-sm text-gray-600">
+                        Não tem uma conta? 
+                        <a href="cadastro.html" class="font-medium text-[var(--neuralins-blue)] hover:underline">
+                            Registre-se
+                        </a>
+                    </p>
+
+                </div>
+            </section>
+        </main>
+
+    </div> <!-- Fim do content-wrapper -->
+
+    <!-- SCRIPT DO FORMULÁRIO (Simples) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
+
+            // Lidar com o envio do formulário de login
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Aqui você pode adicionar a lógica de envio
+                const formData = new FormData(loginForm);
+                const data = Object.fromEntries(formData.entries());
+                
+                console.log("Dados do login:", data);
+                
+                // Exibe uma mensagem de feedback no botão
+                const submitButton = loginForm.querySelector('button[type="submit"]');
+                submitButton.textContent = 'Entrando...';
+                
+                // Simulação de login
+                setTimeout(() => {
+                    submitButton.textContent = 'Entrar';
+                    // Em um app real, aqui você trataria a resposta (sucesso ou erro)
+                }, 1500);
+            });
+        });
+    </script>
+
+
+    <!-- SCRIPT DO FUNDO 3D (Copiado do register.html) -->
+    <script>
+        // Script para o background 3D (Rede Neural) com Three.js
+        let scene, camera, renderer, particles, lines;
+        const particlesCount = 5000;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        function init() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 1000;
+
+            try {
+                renderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
+                    alpha: true
+                });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearAlpha(0);
+            } catch (e) {
+                console.error("Error creating WebGL renderer:", e);
+                if (canvas) canvas.style.display = 'none';
+                return;
+            }
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+            const particleColors = new Float32Array(particlesCount * 3);
+            
+            const color = new THREE.Color('#1F2937'); // Cor escura (modo claro)
+
+            for (let i = 0; i < particlesCount; i++) {
+                const i3 = i * 3;
+                const radius = 450;
+                const phi = Math.acos(-1 + (2 * i) / particlesCount);
+                const theta = Math.sqrt(particlesCount * Math.PI) * phi;
+                
+                positions[i3] = radius * Math.cos(theta) * Math.sin(phi);
+                positions[i3 + 1] = radius * Math.sin(theta) * Math.sin(phi);
+                positions[i3 + 2] = radius * Math.cos(phi);
+
+                particleColors[i3] = color.r;
+                particleColors[i3 + 1] = color.g;
+                particleColors[i3 + 2] = color.b;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 3,
+                sizeAttenuation: true,
+                vertexColors: true,
+                blending: THREE.NormalBlending,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+            
+            animate();
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer) return;
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX) * 0.1;
+            mouseY = (event.clientY - windowHalfY) * 0.1;
+        }
+
+        function animate() {
+            if (!renderer) return;
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+            if (!particles || !camera) return;
+            const time = Date.now() * 0.00005;
+            particles.rotation.x = time * 0.2;
+            particles.rotation.y = time * 0.4;
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+
+        if (typeof THREE === 'undefined') {
+            console.error("Three.js library not loaded.");
+        } else {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        }
+    </script>
+</body>
+</html>

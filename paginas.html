@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Cursos - Neuralins</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos base (copiados de mentoria.html) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #1F2937;
+        }
+        :root {
+            --neuralins-blue: #00A9FF;
+            --neuralins-glow: #00CFFF;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .glass-nav {
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 169, 255, 0.25);
+        }
+        .illuminated-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 169, 255, 0.2);
+            transition: all 0.3s ease-in-out;
+            border-radius: 1rem;
+        }
+        .illuminated-card:hover {
+            border-color: rgba(0, 169, 255, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 0 25px 0 rgba(0, 169, 255, 0.1);
+        }
+        .neon-shadow-hover:hover {
+            box-shadow: 0 0 15px 0 rgba(0, 169, 255, 0.3), 0 0 5px 0 rgba(0, 169, 255, 0.2);
+        }
+        .neon-text-hover:hover {
+            text-shadow: 0 0 8px rgba(0, 207, 255, 0.5);
+            color: var(--neuralins-blue);
+        }
+
+        /* Estilos de formulário (copiado de login.html) */
+        .form-input {
+            background-color: #F3F4F6;
+            border: 1px solid #E5E7EB;
+            color: #1F2937;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--neuralins-blue);
+            box-shadow: 0 0 0 3px rgba(0, 169, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Canvas de Fundo 3D -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Wrapper de Conteúdo -->
+    <div class="relative z-10">
+
+        <!-- 1. NAVBAR (LOGADO) -->
+        <header class="fixed top-0 left-0 right-0 z-50 glass-nav">
+            <nav class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex justify-between items-center">
+                <!-- Logo -->
+                <a href="home.html" class="flex items-center gap-2 text-2xl font-bold text-gray-900 tracking-wide neon-text-hover transition-all duration-300">
+                    <img src="./image-removebg-preview%20copy.png" alt="Logo Neuralins" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/48x48/F9FAFB/00A9FF?text=N'">
+                    <span>Neuralins</span>
+                </a>
+                
+                <!-- Itens do Menu (Logado) -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="tela_aluno.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Dashboard</a>
+                    <a href="paginas.html" class="font-medium text-[var(--neuralins-blue)] transition-colors duration-300">Buscar Cursos</a>
+                    <a href="#perfil" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Meu Perfil</a>
+                    <a href="home.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Sair</a>
+                </div>
+                
+                <!-- Menu Mobile (Ícone) -->
+                <div class="md:hidden">
+                    <button class="text-gray-700 hover:text-[var(--neuralins-blue)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="pt-24"> <!-- pt-24 para dar espaço para a navbar fixa -->
+            
+            <!-- 2. SESSÃO DE BUSCA -->
+            <section class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+                
+                <!-- Título da Página -->
+                <div class="mb-10 text-center">
+                    <h1 class="text-4xl font-bold text-gray-900">Encontre sua Próxima Habilidade</h1>
+                    <p class="mt-2 text-lg text-gray-600">
+                        Explore cursos e mentorias em centenas de tópicos.
+                    </p>
+                </div>
+
+                <!-- Barra de Busca e Filtros -->
+                <div class="illuminated-card p-6 mb-12 sticky top-24 z-20"> <!-- Z-index 20 para ficar acima dos cards ao rolar -->
+                    <form class="flex flex-col md:flex-row gap-4">
+                        <input type="text" placeholder="Busque por 'Python', 'UX Design'..." class="form-input flex-grow">
+                        
+                        <select class="form-input md:w-auto">
+                            <option value="">Categoria (Todas)</option>
+                            <option value="programacao">Programação</option>
+                            <option value="design">Design</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="negocios">Negócios</option>
+                        </select>
+
+                        <select class="form-input md:w-auto">
+                            <option value="">Tipo (Todos)</option>
+                            <option value="curso">Curso</option>
+                            <option value="mentoria">Mentoria</option>
+                        </select>
+                        
+                        <button type="submit" class="px-6 py-3 rounded-lg font-semibold text-black bg-[var(--neuralins-glow)] transition-all duration-300 neon-shadow-hover hover:bg-white">
+                            Buscar
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Grid de Resultados -->
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">Resultados da Busca (Exemplos)</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        
+                        <!-- Card de Curso 1 -->
+                        <div class="illuminated-card overflow-hidden">
+                            <img src="https://placehold.co/400x250/00A9FF/FFFFFF?text=Programação" alt="Capa do Curso" class="w-full h-48 object-cover">
+                            <div class="p-5">
+                                <span class="text-sm font-medium text-[var(--neuralins-blue)]">PROGRAMAÇÃO</span>
+                                <h3 class="text-xl font-semibold text-gray-900 mt-2">Introdução à Inteligência Artificial</h3>
+                                <p class="text-gray-600 text-sm mt-1">com Prof. Ana Silva</p>
+                                <div class="flex justify-between items-center mt-5">
+                                    <span class="text-lg font-bold text-green-600">Grátis</span>
+                                    <a href="#" class="font-medium text-[var(--neuralins-blue)] hover:underline">Ver Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card de Curso 2 (Mentoria) -->
+                        <div class="illuminated-card overflow-hidden">
+                            <img src="https://placehold.co/400x250/1F2937/FFFFFF?text=Design" alt="Capa do Curso" class="w-full h-48 object-cover">
+                            <div class="p-5">
+                                <span class="text-sm font-medium text-[var(--neuralins-blue)]">DESIGN (MENTORIA)</span>
+                                <h3 class="text-xl font-semibold text-gray-900 mt-2">Mentoria de Carreira em UX Design</h3>
+                                <p class="text-gray-600 text-sm mt-1">com Prof. Bruno Costa</p>
+                                <div class="flex justify-between items-center mt-5">
+                                    <span class="text-lg font-bold text-gray-800">Agendada</span>
+                                    <a href="mentoria.html" class="font-medium text-[var(--neuralins-blue)] hover:underline">Ver Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card de Curso 3 -->
+                        <div class="illuminated-card overflow-hidden">
+                            <img src="https://placehold.co/400x250/00CFFF/FFFFFF?text=Marketing" alt="Capa do Curso" class="w-full h-48 object-cover">
+                            <div class="p-5">
+                                <span class="text-sm font-medium text-[var(--neuralins-blue)]">MARKETING</span>
+                                <h3 class="text-xl font-semibold text-gray-900 mt-2">SEO e Marketing de Conteúdo</h3>
+                                <p class="text-gray-600 text-sm mt-1">com Prof. Carla Mendes</p>
+                                <div class="flex justify-between items-center mt-5">
+                                    <span class="text-lg font-bold text-green-600">Grátis</span>
+                                    <a href="#" class="font-medium text-[var(--neuralins-blue)] hover:underline">Ver Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card de Curso 4 -->
+                        <div class="illuminated-card overflow-hidden">
+                            <img src="https://placehold.co/400x250/EAB308/FFFFFF?text=Negócios" alt="Capa do Curso" class="w-full h-48 object-cover">
+                            <div class="p-5">
+                                <span class="text-sm font-medium text-[var(--neuralins-blue)]">NEGÓCIOS</span>
+                                <h3 class="text-xl font-semibold text-gray-900 mt-2">Gestão de Projetos Ágeis (Scrum)</h3>
+                                <p class="text-gray-600 text-sm mt-1">com Prof. Ricardo Alves</p>
+                                <div class="flex justify-between items-center mt-5">
+                                    <span class="text-lg font-bold text-green-600">Grátis</span>
+                                    <a href="#" class="font-medium text-[var(--neuralins-blue)] hover:underline">Ver Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card de Curso 5 -->
+                        <div class="illuminated-card overflow-hidden">
+                            <img src="https://placehold.co/400x250/10B981/FFFFFF?text=DevOps" alt="Capa do Curso" class="w-full h-48 object-cover">
+                            <div class="p-5">
+                                <span class="text-sm font-medium text-[var(--neuralins-blue)]">PROGRAMAÇÃO</span>
+                                <h3 class="text-xl font-semibold text-gray-900 mt-2">Fundamentos de DevOps com Docker</h3>
+                                <p class="text-gray-600 text-sm mt-1">com Prof. Julia Santos</p>
+                                <div class="flex justify-between items-center mt-5">
+                                    <span class="text-lg font-bold text-green-600">Grátis</span>
+                                    <a href="#" class="font-medium text-[var(--neuralins-blue)] hover:underline">Ver Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+    </div> <!-- Fim do content-wrapper -->
+
+
+    <!-- SCRIPT DO FUNDO 3D (Copiado de mentoria.html) -->
+    <script>
+        // Script para o background 3D (Rede Neural) com Three.js
+        let scene, camera, renderer, particles, lines;
+        const particlesCount = 5000;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        function init() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 1000;
+
+            try {
+                renderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
+                    alpha: true
+                });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearAlpha(0);
+            } catch (e) {
+                console.error("Error creating WebGL renderer:", e);
+                if (canvas) canvas.style.display = 'none';
+                return;
+            }
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+            const particleColors = new Float32Array(particlesCount * 3);
+            
+            const color = new THREE.Color('#1F2937'); // Cor escura (modo claro)
+
+            for (let i = 0; i < particlesCount; i++) {
+                const i3 = i * 3;
+                const radius = 450;
+                const phi = Math.acos(-1 + (2 * i) / particlesCount);
+                const theta = Math.sqrt(particlesCount * Math.PI) * phi;
+                
+                positions[i3] = radius * Math.cos(theta) * Math.sin(phi);
+                positions[i3 + 1] = radius * Math.sin(theta) * Math.sin(phi);
+                positions[i3 + 2] = radius * Math.cos(phi);
+
+                particleColors[i3] = color.r;
+                particleColors[i3 + 1] = color.g;
+                particleColors[i3 + 2] = color.b;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 3,
+                sizeAttenuation: true,
+                vertexColors: true,
+                blending: THREE.NormalBlending,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+            
+            animate();
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer) return;
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX) * 0.1;
+            mouseY = (event.clientY - windowHalfY) * 0.1;
+        }
+
+        function animate() {
+            if (!renderer) return;
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+            if (!particles || !camera) return;
+            const time = Date.now() * 0.00005;
+            particles.rotation.x = time * 0.2;
+            particles.rotation.y = time * 0.4;
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+
+        if (typeof THREE === 'undefined') {
+            console.error("Three.js library not loaded.");
+        } else {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        }
+    </script>
+</body>
+</html>

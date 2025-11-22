@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuralins - Conexões que impulsionam carreiras</title>
+    
+    <!-- Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js CDN --><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Google Fonts (Inter) --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Define a fonte Inter como padrão */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Cor de fundo base do site */
+            background-color: #F9FAFB; /* MUDADO: Um cinza/branco muito claro */
+            color: #1F2937; /* MUDADO: Cor de texto principal (cinza escuro) */
+        }
+        
+        /* Cor de destaque principal, inspirada na logo (azul/ciano tecnológico) */
+        :root {
+            --neuralins-blue: #00A9FF;
+            --neuralins-glow: #00CFFF;
+        }
+
+        /* Canvas para o background 3D */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Fica atrás de todo o conteúdo */
+            opacity: 0.5; /* MUDADO: Aumentei mais a opacidade (de 0.3 para 0.5) */
+        }
+
+        /* Estilo para a Navbar "flutuante" */
+        .glass-nav {
+            background-color: rgba(255, 255, 255, 0.5); /* MUDADO: Fundo claro semi-transparente */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 169, 255, 0.25); /* MUDADO: Linha neon mais visível */
+        }
+
+        /* Sombra de brilho sutil para botões e links */
+        .neon-shadow-hover:hover {
+            box-shadow: 0 0 15px 0 rgba(0, 169, 255, 0.3), 0 0 5px 0 rgba(0, 169, 255, 0.2);
+        }
+        
+        .neon-text-hover:hover {
+            text-shadow: 0 0 8px rgba(0, 207, 255, 0.5);
+            color: var(--neuralins-blue); /* MUDADO: Cor de destaque ao invés de branco */
+        }
+
+        /* Estilo para o bloco de "Certificados" */
+        .illuminated-block {
+            background: rgba(255, 255, 255, 0.4); /* MUDADO: slate-900/30 -> Fundo branco */
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 169, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 169, 255, 0.1); /* MUDADO: Sombra mais sutil */
+            border-radius: 1rem; /* rounded-2xl */
+        }
+        
+        /* Estilo para os cards de "Propósito" */
+        .illuminated-card {
+            background: rgba(255, 255, 255, 0.7); /* MUDADO: slate-900/50 -> Fundo branco */
+            border: 1px solid rgba(0, 169, 255, 0.2); /* MUDADO: Borda um pouco mais clara */
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .illuminated-card:hover {
+            border-color: rgba(0, 169, 255, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 0 25px 0 rgba(0, 169, 255, 0.1);
+        }
+
+        /* Estilo para a linha do tempo "Como Funciona" */
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem; /* 40px */
+            padding-bottom: 2rem; /* 32px */
+        }
+        
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        /* O "circuito" (linha vertical) */
+        .timeline-circuit {
+            position: absolute;
+            left: 11px; /* Centralizado no ponto */
+            top: 4px;
+            bottom: 0;
+            width: 2px;
+            background: rgba(0, 169, 255, 0.25); /* MUDADO: Um pouco mais forte */
+        }
+        
+        .timeline-item:last-child .timeline-circuit {
+            display: none; /* Não mostra a linha no último item */
+        }
+
+        /* O "nó" do circuito (ponto) */
+        .timeline-node {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 24px; /* w-6 */
+            height: 24px; /* h-6 */
+            border-radius: 9999px; /* rounded-full */
+            background-color: #F9FAFB; /* MUDADO: Cor do fundo do site */
+            border: 2px solid rgba(0, 169, 255, 0.5); /* Borda do nó */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        /* Ponto interno do nó (brilho) */
+        .timeline-node::after {
+            content: '';
+            width: 8px; /* w-2 */
+            height: 8px; /* h-2 */
+            border-radius: 9999px; /* rounded-full */
+            background-color: var(--neuralins-glow);
+            box-shadow: 0 0 10px var(--neuralins-glow);
+        }
+
+        /* Estilo para o SVG do cérebro na Hero Section */
+        .hero-brain-icon {
+            filter: drop-shadow(0 0 20px rgba(0, 169, 255, 0.5)) drop-shadow(0 0 5px rgba(0, 169, 255, 0.8));
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Canvas de Fundo 3D (será controlado pelo script) --><canvas id="bg-canvas"></canvas>
+
+    <div class="relative z-10">
+
+        <!-- 1. NAVBAR --><header class="fixed top-0 left-0 right-0 z-50 glass-nav">
+            <nav class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex justify-between items-center">
+                <!-- Logo -->
+                    <a href="home.html" class="flex items-center gap-2 text-2xl font-bold text-gray-900 tracking-wide neon-text-hover transition-all duration-300"> <!-- MUDADO: text-white -> text-gray-900 -->
+                    <!-- Ícone -->
+                    <img src="./image-removebg-preview%20copy.png" alt="Logo Neuralins" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/48x48/F9FAFB/00A9FF?text=N'"> <!-- MUDADO: Cor de fundo do placeholder -->
+                    <span>Neuralins</span>
+                </a>
+                
+                <!-- Itens do Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="login.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Login</a> <!-- MUDADO: text-gray-300 -> text-gray-600, hover:text-white -> hover:text-[var(--neuralins-blue)] -->
+                    <a href="paginas.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Cursos</a> <!-- MUDADO: text-gray-300 -> text-gray-600, hover:text-white -> hover:text-[var(--neuralins-blue)] -->
+                    <a href="mentoria.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Mentorias</a> <!-- MUDADO: text-gray-300 -> text-gray-600, hover:text-white -> hover:text-[var(--neuralins-blue)] -->
+                    <a href="teste.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Teste Vocacional</a> <!-- MUDADO: text-gray-300 -> text-gray-600, hover:text-white -> hover:text-[var(--neuralins-blue)] -->
+                </div>
+                
+                <!-- Menu Mobile (Ícone) -->
+                <div class="md:hidden">
+                    <button class="text-gray-700 hover:text-[var(--neuralins-blue)]"> <!-- MUDADO: text-gray-300 -> text-gray-700, hover:text-white -> hover:text-[var(--neuralins-blue)] -->
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <!-- 2. HERO SECTION -->
+            <section id="home" class="h-screen min-h-[700px] flex flex-col justify-center items-center text-center relative px-6">
+                <!-- Conteúdo de texto da Hero -->
+                <div class="relative z-10 flex flex-col items-center">
+                    
+                    <!-- MUDADO: Trocado o H1 de "Neuralins" por um placeholder de imagem para a logo -->
+                <img src="./image-removebg-preview%20copy.png" 
+                    alt="Logo Principal Neuralins" 
+                    class="mb-6 mx-auto w-32 md:w-48 object-contain">
+                    
+                    <!-- O h1 "Neuralins" foi removido para dar lugar à imagem da logo -->
+                    
+                    <p class="mt-4 text-lg md:text-xl text-gray-700 max-w-2xl"> <!-- MUDADO: text-gray-300 -> text-gray-700 -->
+                        Conectando alunos e professores para criar futuros profissionais mais preparados.
+                    </p>
+                    
+                    <!-- Botões CTA -->
+                    <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                        <a href="#professores" class="px-8 py-3 rounded-lg font-semibold text-black bg-[var(--neuralins-glow)] transition-all duration-300 neon-shadow-hover hover:bg-white hover:shadow-lg"> <!-- MUDADO: Adicionado hover shadow normal -->
+                            Encontre um professor
+                        </a>
+                        <a href="#teste" class="px-8 py-3 rounded-lg font-semibold text-[var(--neuralins-blue)] bg-transparent border-2 border-[var(--neuralins-blue)] transition-all duration-300 hover:bg-[var(--neuralins-blue)]/20 neon-shadow-hover"> <!-- MUDADO: text-white -> text-[var(--neuralins-blue)] -->
+                            Descubra sua profissão
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. SESSÃO "Quem Somos" -->
+            <section id="quem-somos" class="py-24 sm:py-32">
+                <div class="max-w-7xl mx-auto px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-center">
+                    <!-- Coluna de Texto -->
+                    <div>
+                        <span class="text-sm font-semibold uppercase tracking-wider" style="color: var(--neuralins-blue);">Quem Somos</span>
+                        <h2 class="mt-3 text-4xl font-bold text-gray-900"> <!-- MUDADO: text-white -> text-gray-900 -->
+                            Plataforma de Intermediação
+                        </h2>
+                        <p class="mt-6 text-lg text-gray-600"> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                            Somos uma plataforma de intermediação entre alunos e professores, não somos uma instituição de ensino. Nosso papel é conectar, orientar e facilitar o aprendizado.
+                        </p>
+                    </div>
+                    
+                    <!-- Coluna de Ícones/Features -->
+                    <div class="space-y-8">
+                        <!-- Feature 1 -->
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full border-2 border-[var(--neuralins-blue)]/30 bg-slate-800/50">
+                                <!-- Ícone de Conexão (Futurista) -->
+                                <svg class="w-5 h-5" style="color: var(--neuralins-blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900">Conectar</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                                <p class="mt-1 text-gray-600">Unimos alunos com os mentores ideais para suas áreas de interesse.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                            </div>
+                        </div>
+                        <!-- Feature 2 -->
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full border-2 border-[var(--neuralins-blue)]/30 bg-slate-800/50">
+                                <!-- Ícone de Orientação (Bússola) -->
+                                <svg class="w-5 h-5" style="color: var(--neuralins-blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900">Orientar</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                                <p class="mt-1 text-gray-600">Oferecemos trilhas de carreira e testes vocacionais para guiar sua jornada.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                            </div>
+                        </div>
+                        <!-- Feature 3 -->
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full border-2 border-[var(--neuralins-blue)]/30 bg-slate-800/50">
+                                <!-- Ícone de Facilitar (Caminho) -->
+                                <svg class="w-5 h-5" style="color: var(--neuralins-blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900">Facilitar</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                                <p class="mt-1 text-gray-600">Acesso a cursos, mentorias e conexões reais com o mercado de trabalho.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                            </div>
+                        </div>
+                        <!-- Feature 2 -->
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full border-2 border-[var(--neuralins-blue)]/30 bg-slate-800/50">
+                                <!-- Ícone de Orientação (Bússola) -->
+                                <svg class="w-5 h-5" style="color: var(--neuralins-blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-white">Orientar</h3>
+                                <p class="mt-1 text-gray-400">Oferecemos trilhas de carreira e testes vocacionais para guiar sua jornada.</p>
+                            </div>
+                        </div>
+                        <!-- Feature 3 -->
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full border-2 border-[var(--neuralins-blue)]/30 bg-slate-800/50">
+                                <!-- Ícone de Facilitar (Caminho) -->
+                                <svg class="w-5 h-5" style="color: var(--neuralins-blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-white">Facilitar</h3>
+                                <p class="mt-1 text-gray-400">Acesso a cursos, mentorias e conexões reais com o mercado de trabalho.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. SESSÃO "Nosso Propósito" -->
+            <section id="proposito" class="py-24 sm:py-32 bg-gray-900/5"> <!-- MUDADO: bg-black/20 -> bg-gray-900/5 (sutil) -->
+                <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+                    <h2 class="text-4xl font-bold text-gray-900"> <!-- MUDADO: text-white -> text-gray-900 -->
+                        Ajudando jovens a encontrar o caminho certo após o Ensino Médio
+                    </h2>
+                    <p class="mt-6 text-lg text-gray-700 max-w-3xl mx-auto"> <!-- MUDADO: text-gray-300 -> text-gray-700 -->
+                        Nosso principal objetivo é reduzir o número de jovens que terminam o Ensino Médio sem saber qual profissão seguir.
+                    </p>
+                    <p class="mt-2 text-lg text-gray-700 max-w-3xl mx-auto"> <!-- MUDADO: text-gray-300 -> text-gray-700 -->
+                        Fazemos isso por meio de professores especializados, trilhas de orientação profissional e conexões reais com o mercado de trabalho.
+                    </p>
+                    
+                    <!-- Cards Iluminados -->
+                    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                        <!-- Card 1 -->
+                        <div class="illuminated-card p-6 rounded-xl">
+                            <svg class="w-10 h-10 mb-4" style="color: var(--neuralins-blue);" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A1.5 1.5 0 0118 21.75H6a1.5 1.5 0 01-1.499-1.632z" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-900">Professores Especializados</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                            <p class="mt-2 text-gray-600">Mentores que atuam no mercado e trazem experiência prática.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="illuminated-card p-6 rounded-xl">
+                            <svg class="w-10 h-10 mb-4" style="color: var(--neuralins-blue);" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9M20.25 20.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-900">Trilhas de Orientação</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                            <p class="mt-2 text-gray-600">Jornadas de aprendizado focadas em descobrir e desenvolver talentos.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="illuminated-card p-6 rounded-xl">
+                            <svg class="w-10 h-10 mb-4" style="color: var(--neuralins-blue);" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h3.75" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-900">Conexões Reais</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                            <p class="mt-2 text-gray-600">Facilitamos o contato com empresas e profissionais da área.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. SESSÃO "Como Funciona" -->
+            <section id="como-funciona" class="py-24 sm:py-32">
+                <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div class="max-w-2xl mx-auto lg:mx-0">
+                        <span class="text-sm font-semibold uppercase tracking-wider" style="color: var(--neuralins-blue);">O Processo</span>
+                        <h2 class="mt-3 text-4xl font-bold text-gray-900"> <!-- MUDADO: text-white -> text-gray-900 -->
+                            Como Funciona a Intermediação
+                        </h2>
+                    </div>
+                    
+                    <!-- Linha do Tempo / Circuito -->
+                    <div class="mt-16 max-w-3xl">
+                        <div class="relative">
+                            <!-- A linha/circuito é composta pelos itens -->
+                            <!-- Item 1 -->
+                            <div class="timeline-item">
+                                <div class="timeline-circuit"></div>
+                                <div class="timeline-node"></div>
+                                <span class="text-sm font-semibold" style="color: var(--neuralins-blue);">PASSO 01</span>
+                                <h3 class="mt-2 text-xl font-semibold text-gray-900">Escolha de Interesse</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                                <p class="mt-1 text-gray-600">O aluno escolhe sua área de interesse ou realiza nosso teste vocacional.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                            </div>
+                            <!-- Item 2 -->
+                            <div class="timeline-item">
+                                <div class="timeline-circuit"></div>
+                                <div class="timeline-node"></div>
+                                <span class="text-sm font-semibold" style="color: var(--neuralins-blue);">PASSO 02</span>
+                                <h3 class="mt-2 text-xl font-semibold text-gray-900">Conexão com Professor</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                                <p class="mt-1 text-gray-600">Conecta-se com um professor especializado na área escolhida.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                            </div>
+                            <!-- Item 3 -->
+                            <div class="timeline-item">
+                                <div class="timeline-circuit"></div>
+                                <div class="timeline-node"></div>
+                                <span class="text-sm font-semibold" style="color: var(--neuralins-blue);">PASSO 03</span>
+                                <h3 class="mt-2 text-xl font-semibold text-gray-900">Acesso ao Conteúdo</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                                <p class="mt-1 text-gray-600">Acessa cursos, trilhas de aprendizado e mentorias personalizadas.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                            </div>
+                            <!-- Item 4 -->
+                            <div class="timeline-item">
+                                <!-- Sem .timeline-circuit aqui -->
+                                <div class="timeline-node"></div>
+                                <span class="text-sm font-semibold" style="color: var(--neuralins-blue);">PASSO 04</span>
+                                <h3 class="mt-2 text-xl font-semibold text-gray-900">Direcionamento Real</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                                <p class="mt-1 text-gray-600">Recebe direcionamento prático e real para o mercado de trabalho.</p> <!-- MUDADO: text-gray-400 -> text-gray-600 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. SESSÃO "Sobre Certificados" -->
+            <section id="certificados" class="py-24 sm:py-32">
+                <div class="max-w-3xl mx-auto px-6 lg:px-8">
+                    <div class="illuminated-block p-8 md:p-12 flex flex-col md:flex-row items-center gap-6">
+                        <!-- Ícone de Alerta -->
+                        <div class="flex-shrink-0">
+                            <svg class="w-12 h-12 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z" />
+                            </svg>
+                        </div>
+                        <!-- Texto -->
+                        <div class="text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-gray-900">Sobre os Certificados</h3> <!-- MUDADO: text-white -> text-gray-900 -->
+                            <p class="mt-4 text-lg text-gray-700"> <!-- MUDADO: text-gray-300 -> text-gray-700 -->
+                                Nossos cursos oferecem certificados de participação, porém <strong class="text-yellow-500 font-semibold">NÃO são válidos pelo MEC.</strong> <!-- MUDADO: text-yellow-300 -> text-yellow-500 -->
+                            </p>
+                            <p class="mt-2 text-lg text-gray-700"> <!-- MUDADO: text-gray-300 -> text-gray-700 -->
+                                Somos uma plataforma de intermediação e orientação, não uma instituição de ensino formal.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- 7. FOOTER -->
+        <footer class="mt-32 border-t border-[var(--neuralins-blue)]/15">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                    <!-- Logo e Copyright -->
+                    <div class="text-center md:text-left">
+                        <a href="#" class="flex items-center justify-center md:justify-start gap-2 text-2xl font-bold text-gray-900 tracking-wide neon-text-hover transition-all duration-300"> <!-- MUDADO: text-white -> text-gray-900 -->
+                            <!-- Ícone do Cérebro no Footer -->
+                            <!-- Ícone removido do HTML original -->
+                            <span>Neuralins</span>
+                        </a>
+                        <p class="mt-2 text-gray-500 text-sm">© 2025 Neuralins. Todos os direitos reservados.</p>
+                        <p class="text-gray-500 text-sm">Conexões que impulsionam carreiras.</p>
+                    </div>
+                    
+                    <!-- Links de Navegação -->
+                    <div class="flex gap-6">
+                        <a href="#home" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Home</a> <!-- MUDADO: text-gray-400 -> text-gray-600, hover:text-white -> hover:text-[var(--neuralins-blue)] -->
+                        <a href="#quem-somos" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Sobre</a> <!-- MUDADO: text-gray-400 -> text-gray-600, hover:text-white -> hover:text-[var(--neuralins-blue)] -->
+                        <a href="#professores" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Professores</a> <!-- MUDADO: text-gray-400 -> text-gray-600, hover:text-white -> hover:text-[var(--neuralins-blue)] -->
+                        <a href="#contato" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Contato</a> <!-- MUDADO: text-gray-400 -> text-gray-600, hover:text-white -> hover:text-[var(--neuralins-blue)] -->
+                    </div>
+                    
+                    <!-- Ícones Sociais Luminosos -->
+                    <div class="flex gap-5">
+                        <!-- Twitter -->
+                        <a href="#" class="text-gray-400 hover:text-[var(--neuralins-glow)] transition-all duration-300" title="Twitter"> <!-- MUDADO: text-gray-500 -> text-gray-400 -->
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.25 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                        </a>
+                        <!-- LinkedIn -->
+                        <a href="#" class="text-gray-400 hover:text-[var(--neuralins-glow)] transition-all duration-300" title="LinkedIn"> <!-- MUDADO: text-gray-500 -> text-gray-400 -->
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+                        </a>
+                        <!-- Instagram -->
+                        <a href="#" class="text-gray-400 hover:text-[var(--neuralins-glow)] transition-all duration-300" title="Instagram"> <!-- MUDADO: text-gray-500 -> text-gray-400 -->
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.069-1.645-.069-4.849s.012-3.584.07-4.85c.148-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.948c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.668-.014 4.948-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.28-.059-1.689-.073-4.948-.073z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div> <!-- Fim do content-wrapper -->
+    <script>
+        // Script para o background 3D (Rede Neural) com Three.js
+        
+        let scene, camera, renderer, particles, lines;
+        const particlesCount = 5000; // Reduzido para melhor performance, original era 5000
+        const connectionsDistance = 50; // Distância para criar conexões (aumentei para um visual mais "esparso")
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        function init() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) {
+                console.error("Canvas element #bg-canvas not found.");
+                return;
+            }
+
+            // 1. Cena
+            scene = new THREE.Scene();
+
+            // 2. Câmera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 1000; // Posição inicial da câmera
+
+            // 3. Renderer
+            try {
+                renderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
+                    alpha: true // Fundo transparente
+                });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearAlpha(0); // Totalmente transparente
+            } catch (e) {
+                console.error("Error creating WebGL renderer:", e);
+                // Fallback or message
+                document.getElementById('bg-canvas').style.display = 'none'; // Esconde o canvas se o WebGL falhar
+                return;
+            }
+
+            // 4. Geometrias
+            const particlesGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+            const particleColors = new Float32Array(particlesCount * 3);
+            
+            // Pegando a cor do CSS :root
+            // MUDADO: Usando cor escura para o modo claro
+            const color = new THREE.Color('#1F2937'); // Cor do texto principal
+
+            for (let i = 0; i < particlesCount; i++) {
+                // Posições (forma de "cérebro" esférica)
+                const i3 = i * 3;
+                const radius = 450;
+                
+                // Distribuição esférica para a "malha"
+                const phi = Math.acos(-1 + (2 * i) / particlesCount);
+                const theta = Math.sqrt(particlesCount * Math.PI) * phi;
+                
+                positions[i3] = radius * Math.cos(theta) * Math.sin(phi);
+                positions[i3 + 1] = radius * Math.sin(theta) * Math.sin(phi);
+                positions[i3 + 2] = radius * Math.cos(phi);
+
+                // Cores
+                particleColors[i3] = color.r;
+                particleColors[i3 + 1] = color.g;
+                particleColors[i3 + 2] = color.b;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+
+            // 5. Material das Partículas
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 3, /* MUDADO: Tamanho aumentado (de 2 para 3) */
+                sizeAttenuation: true,
+                vertexColors: true,
+                blending: THREE.NormalBlending, // MUDADO: Normal para cor escura
+                transparent: true,
+                opacity: 0.8 /* MUDADO: Opacidade da partícula aumentada (de 0.6 para 0.8) */
+            });
+
+            // 6. Objeto Partículas
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            
+            // --- Script de animação e eventos ---
+            
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+            
+            animate();
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer) return;
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX) * 0.1;
+            mouseY = (event.clientY - windowHalfY) * 0.1;
+        }
+
+        function animate() {
+            if (!renderer) return; // Para a animação se o renderer falhou
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+            if (!particles || !camera) return;
+            const time = Date.now() * 0.00005;
+
+            // Movimento sutil de rotação
+            particles.rotation.x = time * 0.2;
+            particles.rotation.y = time * 0.4;
+            
+            // Efeito de "paralaxe" com o mouse
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        // Inicializa a cena 3D
+        // Garante que o Three.js foi carregado
+        // NOTA: O script não foi alterado.
+        // As partículas são claras e usam "AdditiveBlending".
+        // Em um fundo claro, elas ficarão quase invisíveis.
+        // Isso é esperado, já que a mudança foi apenas no CSS.
+        if (typeof THREE === 'undefined') {
+            console.error("Three.js library not loaded.");
+        } else {
+            // Espera o DOM estar pronto
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        }
+
+    </script>
+</body>
+</html>

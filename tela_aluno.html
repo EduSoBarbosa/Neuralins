@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Aluno - Neuralins</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos base (copiados de login.html) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #1F2937;
+        }
+        :root {
+            --neuralins-blue: #00A9FF;
+            --neuralins-glow: #00CFFF;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .glass-nav {
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 169, 255, 0.25);
+        }
+        
+        /* Estilo para os cards (copiado de index.html) */
+        .illuminated-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 169, 255, 0.2);
+            transition: all 0.3s ease-in-out;
+            border-radius: 1rem; /* rounded-2xl */
+        }
+        
+        .illuminated-card:hover {
+            border-color: rgba(0, 169, 255, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 0 25px 0 rgba(0, 169, 255, 0.1);
+        }
+        
+        /* Efeitos de hover (copiado de login.html) */
+        .neon-shadow-hover:hover {
+            box-shadow: 0 0 15px 0 rgba(0, 169, 255, 0.3), 0 0 5px 0 rgba(0, 169, 255, 0.2);
+        }
+        .neon-text-hover:hover {
+            text-shadow: 0 0 8px rgba(0, 207, 255, 0.5);
+            color: var(--neuralins-blue);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Canvas de Fundo 3D -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Wrapper de Conteúdo -->
+    <div class="relative z-10">
+
+        <!-- 1. NAVBAR (LOGADO) -->
+        <header class="fixed top-0 left-0 right-0 z-50 glass-nav">
+            <nav class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex justify-between items-center">
+                <!-- Logo -->
+                <a href="home.html" class="flex items-center gap-2 text-2xl font-bold text-gray-900 tracking-wide neon-text-hover transition-all duration-300">
+                    <img src="./image-removebg-preview%20copy.png" alt="Logo Neuralins" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/48x48/F9FAFB/00A9FF?text=N'">
+                    <span>Neuralins</span>
+                </a>
+                
+                <!-- Itens do Menu (Logado) -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="paginas.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Meus Cursos</a>
+                    <a href="mentoria.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Professores</a>
+                    <a href="#perfil" class="font-medium text-gray-800 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Meu Perfil</a>
+                    <a href="home.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300">Sair</a>
+                </div>
+                
+                <!-- Menu Mobile (Ícone) -->
+                <div class="md:hidden">
+                    <button class="text-gray-700 hover:text-[var(--neuralins-blue)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="pt-24"> <!-- pt-24 para dar espaço para a navbar fixa -->
+            
+            <!-- 2. SESSÃO DO DASHBOARD -->
+            <section class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+                
+                <!-- Saudação -->
+                <div class="mb-10">
+                    <h1 class="text-4xl font-bold text-gray-900">Bem-vindo, Eduardo!</h1>
+                    <p class="mt-2 text-lg text-gray-600">Pronto para impulsionar sua carreira hoje?</p>
+                </div>
+
+                <!-- Grid Principal do Dashboard -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Coluna Principal (Maior) -->
+                    <div class="lg:col-span-2 space-y-8">
+                        
+                        <!-- Seção: Minhas Atividades (Cursos/Mentorias) -->
+                        <div class="illuminated-card p-6 md:p-8">
+                            <h2 class="text-2xl font-semibold text-gray-900 mb-5">Minhas Atividades</h2>
+                            
+                            <!-- Exemplo de item de curso/mentoria -->
+                            <div class="flex flex-col sm:flex-row items-center gap-6 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                                <img src="ai.jpeg" alt="Ícone do Curso" class="w-24 h-24 sm:w-16 sm:h-16 rounded-lg object-cover">
+                                <div class="flex-1 text-center sm:text-left">
+                                    <h3 class="text-lg font-semibold text-gray-800">Introdução à Inteligência Artificial</h3>
+                                    <p class="text-gray-600">com Prof. Ana Silva</p>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                                        <div class="bg-[var(--neuralins-blue)] h-2.5 rounded-full" style="width: 45%"></div>
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-1">45% completo</p>
+                                </div>
+                                <a href="#" class="px-5 py-2 rounded-lg font-medium text-black bg-[var(--neuralins-glow)] transition-all duration-300 neon-shadow-hover hover:bg-white text-sm">
+                                    Continuar
+                                </a>
+                            </div>
+
+                            <!-- Exemplo 2 -->
+                            <div class="flex flex-col sm:flex-row items-center gap-6 p-4 mt-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                                <img src="mentoria.jpeg" alt="Ícone do Curso" class="w-24 h-24 sm:w-16 sm:h-16 rounded-lg object-cover">
+                                <div class="flex-1 text-center sm:text-left">
+                                    <h3 class="text-lg font-semibold text-gray-800">Mentoria de Carreira em UX Design</h3>
+                                    <p class="text-gray-600">com Prof. Bruno Costa</p>
+                                    <p class="text-sm text-[var(--neuralins-blue)] font-medium mt-2">Próxima sessão: 20/Nov, 14:00</p>
+                                </div>
+                                <a href="mentoria.html" class="px-5 py-2 rounded-lg font-medium text-[var(--neuralins-blue)] bg-transparent border-2 border-[var(--neuralins-blue)] transition-all duration-300 hover:bg-[var(--neuralins-blue)]/20 text-sm">
+                                    Ver Detalhes
+                                </a>
+                            </div>
+
+                            <a href="#" class="block text-center mt-6 text-lg font-medium text-[var(--neuralins-blue)] hover:underline">
+                                Ver todas as atividades
+                            </a>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Coluna Lateral (Menor) -->
+                    <div class="lg:col-span-1 space-y-8">
+                        
+                        <!-- Card: Encontrar Professores -->
+                        <div class="illuminated-card p-6 text-center">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-3">Encontre um Mentor</h2>
+                            <p class="text-gray-600 mb-5">Conecte-se com especialistas do mercado.</p>
+                            <a href="#" class="w-full px-6 py-3 rounded-lg font-semibold text-black bg-[var(--neuralins-glow)] transition-all duration-300 neon-shadow-hover hover:bg-white">
+                                Buscar Professores
+                            </a>
+                        </div>
+
+                        <!-- Card: Teste Vocacional -->
+                        <div class="illuminated-card p-6 text-center">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-3">Descubra sua Carreira</h2>
+                            <p class="text-gray-600 mb-5">Ainda em dúvida? Faça nosso teste vocacional.</p>
+                            <a href="#" class="w-full px-6 py-3 rounded-lg font-semibold text-[var(--neuralins-blue)] bg-transparent border-2 border-[var(--neuralins-blue)] transition-all duration-300 hover:bg-[var(--neuralins-blue)]/20">
+                                Iniciar Teste
+                            </a>
+                        </div>
+
+                        <!-- Card: Meu Perfil -->
+                        <div class="illuminated-card p-6">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Meu Perfil</h2>
+                            <div class="space-y-3">
+                                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-[var(--neuralins-blue)] transition-colors">
+                                    <span>Editar Informações</span>
+                                    <span>&rarr;</span>
+                                </a>
+                                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-[var(--neuralins-blue)] transition-colors">
+                                    <span>Minhas Áreas de Interesse</span>
+                                    <span>&rarr;</span>
+                                </a>
+                                <a href="#" class="flex items-center justify-between text-gray-700 hover:text-[var(--neuralins-blue)] transition-colors">
+                                    <span>Certificados</span>
+                                    <span>&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+        </main>
+
+    </div> <!-- Fim do content-wrapper -->
+
+
+    <!-- SCRIPT DO FUNDO 3D (Copiado de login.html) -->
+    <script>
+        // Script para o background 3D (Rede Neural) com Three.js
+        let scene, camera, renderer, particles, lines;
+        const particlesCount = 5000;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        function init() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 1000;
+
+            try {
+                renderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
+                    alpha: true
+                });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearAlpha(0);
+            } catch (e) {
+                console.error("Error creating WebGL renderer:", e);
+                if (canvas) canvas.style.display = 'none';
+                return;
+            }
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+            const particleColors = new Float32Array(particlesCount * 3);
+            
+            const color = new THREE.Color('#1F2937'); // Cor escura (modo claro)
+
+            for (let i = 0; i < particlesCount; i++) {
+                const i3 = i * 3;
+                const radius = 450;
+                const phi = Math.acos(-1 + (2 * i) / particlesCount);
+                const theta = Math.sqrt(particlesCount * Math.PI) * phi;
+                
+                positions[i3] = radius * Math.cos(theta) * Math.sin(phi);
+                positions[i3 + 1] = radius * Math.sin(theta) * Math.sin(phi);
+                positions[i3 + 2] = radius * Math.cos(phi);
+
+                particleColors[i3] = color.r;
+                particleColors[i3 + 1] = color.g;
+                particleColors[i3 + 2] = color.b;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 3,
+                sizeAttenuation: true,
+                vertexColors: true,
+                blending: THREE.NormalBlending,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+            
+            animate();
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer) return;
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX) * 0.1;
+            mouseY = (event.clientY - windowHalfY) * 0.1;
+        }
+
+        function animate() {
+            if (!renderer) return;
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+            if (!particles || !camera) return;
+            const time = Date.now() * 0.00005;
+            particles.rotation.x = time * 0.2;
+            particles.rotation.y = time * 0.4;
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+
+        if (typeof THREE === 'undefined') {
+            console.error("Three.js library not loaded.");
+        } else {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        }
+    </script>
+</body>
+</html>

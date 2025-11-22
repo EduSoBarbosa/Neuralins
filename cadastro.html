@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registre-se - Neuralins</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Define a fonte Inter como padrão */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB; /* Cor de fundo (modo claro) */
+            color: #1F2937; /* Cor de texto principal (modo claro) */
+        }
+        
+        /* Cor de destaque principal */
+        :root {
+            --neuralins-blue: #00A9FF;
+            --neuralins-glow: #00CFFF;
+        }
+
+        /* Canvas para o background 3D */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        /* Estilo para a Navbar "flutuante" */
+        .glass-nav {
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 169, 255, 0.25);
+        }
+        
+        /* Estilo para o bloco de "Certificados" (usado no formulário) */
+        .illuminated-block {
+            background: rgba(255, 255, 255, 0.3); /* MUDADO: 0.5 -> 0.3 (mais transparente) */
+            backdrop-filter: blur(10px); /* MUDADO: 12px -> 10px (menos blur) */
+            -webkit-backdrop-filter: blur(10px); /* MUDADO: 12px -> 10px */
+            border: 1px solid rgba(0, 169, 255, 0.25); /* MUDADO: 0.3 -> 0.25 */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 169, 255, 0.1);
+            border-radius: 1rem; /* rounded-2xl */
+        }
+        
+        /* Efeito de hover (copiado do index) */
+        .neon-shadow-hover:hover {
+            box-shadow: 0 0 15px 0 rgba(0, 169, 255, 0.3), 0 0 5px 0 rgba(0, 169, 255, 0.2);
+        }
+        
+        .neon-text-hover:hover {
+            text-shadow: 0 0 8px rgba(0, 207, 255, 0.5);
+            color: var(--neuralins-blue);
+        }
+
+        /* Estilos para o input (modo claro) */
+        .form-input {
+            background-color: #F3F4F6; /* bg-gray-100 */
+            border: 1px solid #E5E7EB; /* border-gray-300 */
+            color: #1F2937; /* text-gray-800 */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 0.75rem 1rem; /* p-3 */
+            width: 100%;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--neuralins-blue);
+            box-shadow: 0 0 0 3px rgba(0, 169, 255, 0.2);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem; /* mb-2 */
+            font-weight: 500; /* medium */
+            color: #374151; /* text-gray-700 */
+        }
+
+        /* Estilo para o Toggle de Aluno/Professor */
+        .role-toggle button {
+            transition: all 0.3s ease;
+            padding: 0.5rem 0.75rem;
+            width: 50%;
+            border-radius: 0.375rem; /* rounded-md */
+            font-weight: 500;
+        }
+        
+        .role-toggle .active-role {
+            background-color: #ffffff;
+            color: var(--neuralins-blue);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .role-toggle .inactive-role {
+            background-color: transparent;
+            color: #4B5563; /* text-gray-600 */
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Canvas de Fundo 3D (igual ao index.html) -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Wrapper de Conteúdo -->
+    <div class="relative z-10">
+
+        <!-- 1. NAVBAR (Igual ao index.html) -->
+        <header class="fixed top-0 left-0 right-0 z-50 glass-nav">
+            <nav class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex justify-between items-center">
+                <!-- Logo -->
+                <a href="home.html" class="flex items-center gap-2 text-2xl font-bold text-gray-900 tracking-wide neon-text-hover transition-all duration-300">
+                    <img src="./image-removebg-preview%20copy.png" alt="Logo Neuralins" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/48x48/F9FAFB/00A9FF?text=N'">
+                    <span>Neuralins</span>
+                </a>
+                
+                <!-- Itens do Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="login.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Login</a>
+                    <a href="paginas.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Cursos</a>
+                    <a href="mentoria.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Mentorias</a>
+                    <a href="teste.html" class="text-gray-600 hover:text-[var(--neuralins-blue)] transition-colors duration-300 [text-shadow:0_0_8px_transparent] hover:[text-shadow:0_0_8px_var(--neuralins-glow)]">Teste Vocacional</a>
+                </div>
+                
+                <!-- Menu Mobile (Ícone) -->
+                <div class="md:hidden">
+                    <button class="text-gray-700 hover:text-[var(--neuralins-blue)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <!-- 2. SESSÃO DE REGISTRO -->
+            <section class="min-h-screen flex items-center justify-center pt-20 py-12 px-4 sm:px-6 lg:px-8">
+                
+                <!-- O "bloco iluminado" que contém o formulário -->
+                <div class="illuminated-block w-full max-w-lg p-8 md:p-10 space-y-6">
+                    
+                    <!-- Título -->
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-gray-900">
+                            Crie sua Conta
+                        </h2>
+                        <p class="mt-2 text-gray-600">
+                            Junte-se à Neuralins como aluno ou professor.
+                        </p>
+                    </div>
+
+                    <!-- Seletor de Tipo de Usuário (Toggle) -->
+                    <div class="role-toggle flex items-center bg-gray-200 rounded-lg p-1">
+                        <button id="btn-aluno" class="active-role">
+                            Sou Aluno
+                        </button>
+                        <button id="btn-professor" class="inactive-role">
+                            Sou Professor
+                        </button>
+                    </div>
+
+                    <!-- Formulário -->
+                    <form id="register-form" class="space-y-5">
+                        <input type="hidden" id="user-role" name="role" value="aluno">
+
+                        <!-- Campos Comuns -->
+                        <div>
+                            <label for="name" class="form-label">Nome Completo</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Seu nome" required>
+                        </div>
+                        <div>
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="voce@exemplo.com" required>
+                        </div>
+                        <div>
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+                        </div>
+                        
+                        <!-- Campos Específicos do Aluno -->
+                        <div id="aluno-fields" class="space-y-5">
+                            <div>
+                                <label for="interest" class="form-label">Área de Interesse</label>
+                                <input type="text" id="interest" name="interest" class="form-input" placeholder="Ex: Programação, Design, Marketing">
+                            </div>
+                        </div>
+
+                        <!-- Campos Específicos do Professor (Ocultos por padrão) -->
+                        <div id="professor-fields" class="space-y-5 hidden">
+                            <div>
+                                <label for="specialty" class="form-label">Especialidade Principal</label>
+                                <input type="text" id="specialty" name="specialty" class="form-input" placeholder="Ex: Engenharia de Software">
+                            </div>
+                            <div>
+                                <label for="linkedin" class="form-label">Seu LinkedIn</label>
+                                <input type="url" id="linkedin" name="linkedin" class="form-input" placeholder="https://linkedin.com/in/seu-perfil">
+                            </div>
+                        </div>
+
+                        <!-- Botão de Registro -->
+                        <div>
+                            <button type="submit" class="w-full mt-2 px-8 py-3 rounded-lg font-semibold text-black bg-[var(--neuralins-glow)] transition-all duration-300 neon-shadow-hover hover:bg-white hover:shadow-lg" onclick="window.location='tela_aluno.html'; return false;">
+                                Criar Conta
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Link para Login -->
+                    <p class="text-center text-sm text-gray-600">
+                        Já tem uma conta? 
+                        <a href="login.html" class="font-medium text-[var(--neuralins-blue)] hover:underline">
+                            Faça login
+                        </a>
+                    </p>
+
+                </div>
+            </section>
+        </main>
+
+    </div> <!-- Fim do content-wrapper -->
+
+    <!-- SCRIPT DO FORMULÁRIO (Toggle) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnAluno = document.getElementById('btn-aluno');
+            const btnProfessor = document.getElementById('btn-professor');
+            const alunoFields = document.getElementById('aluno-fields');
+            const professorFields = document.getElementById('professor-fields');
+            const userRoleInput = document.getElementById('user-role');
+            const registerForm = document.getElementById('register-form');
+
+            // Função para ativar o modo Aluno
+            function setAluno() {
+                btnAluno.classList.add('active-role');
+                btnAluno.classList.remove('inactive-role');
+                
+                btnProfessor.classList.add('inactive-role');
+                btnProfessor.classList.remove('active-role');
+
+                alunoFields.classList.remove('hidden');
+                professorFields.classList.add('hidden');
+                
+                userRoleInput.value = 'aluno';
+            }
+
+            // Função para ativar o modo Professor
+            function setProfessor() {
+                btnProfessor.classList.add('active-role');
+                btnProfessor.classList.remove('inactive-role');
+                
+                btnAluno.classList.add('inactive-role');
+                btnAluno.classList.remove('active-role');
+
+                professorFields.classList.remove('hidden');
+                alunoFields.classList.add('hidden');
+                
+                userRoleInput.value = 'professor';
+            }
+
+            // Adiciona os cliques
+            btnAluno.addEventListener('click', (e) => {
+                e.preventDefault(); // Impede o envio do formulário
+                setAluno();
+            });
+
+            btnProfessor.addEventListener('click', (e) => {
+                e.preventDefault(); // Impede o envio do formulário
+                setProfessor();
+            });
+
+            // Lidar com o envio do formulário
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Aqui você pode adicionar a lógica de envio
+                // Apenas como exemplo:
+                const formData = new FormData(registerForm);
+                const data = Object.fromEntries(formData.entries());
+                
+                console.log("Dados do formulário:", data);
+                
+                // Exibiria uma mensagem de sucesso/erro aqui
+                // alert('Registro enviado (ver console)!'); // Evitando alert()
+                
+                // Exibe uma mensagem de feedback no próprio formulário (melhor que alert)
+                const submitButton = registerForm.querySelector('button[type="submit"]');
+                submitButton.textContent = 'Enviado!';
+                setTimeout(() => {
+                    submitButton.textContent = 'Criar Conta';
+                }, 2000);
+            });
+        });
+    </script>
+
+
+    <!-- SCRIPT DO FUNDO 3D (Copiado do index.html) -->
+    <script>
+        // Script para o background 3D (Rede Neural) com Three.js
+        let scene, camera, renderer, particles, lines;
+        const particlesCount = 5000;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        function init() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 1000;
+
+            try {
+                renderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
+                    alpha: true
+                });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearAlpha(0);
+            } catch (e) {
+                console.error("Error creating WebGL renderer:", e);
+                if (canvas) canvas.style.display = 'none';
+                return;
+            }
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+            const particleColors = new Float32Array(particlesCount * 3);
+            
+            const color = new THREE.Color('#1F2937'); // Cor escura (modo claro)
+
+            for (let i = 0; i < particlesCount; i++) {
+                const i3 = i * 3;
+                const radius = 450;
+                const phi = Math.acos(-1 + (2 * i) / particlesCount);
+                const theta = Math.sqrt(particlesCount * Math.PI) * phi;
+                
+                positions[i3] = radius * Math.cos(theta) * Math.sin(phi);
+                positions[i3 + 1] = radius * Math.sin(theta) * Math.sin(phi);
+                positions[i3 + 2] = radius * Math.cos(phi);
+
+                particleColors[i3] = color.r;
+                particleColors[i3 + 1] = color.g;
+                particleColors[i3 + 2] = color.b;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 3,
+                sizeAttenuation: true,
+                vertexColors: true,
+                blending: THREE.NormalBlending,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+            
+            animate();
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer) return;
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX) * 0.1;
+            mouseY = (event.clientY - windowHalfY) * 0.1;
+        }
+
+        function animate() {
+            if (!renderer) return;
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+            if (!particles || !camera) return;
+            const time = Date.now() * 0.00005;
+            particles.rotation.x = time * 0.2;
+            particles.rotation.y = time * 0.4;
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+
+        if (typeof THREE === 'undefined') {
+            console.error("Three.js library not loaded.");
+        } else {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        }
+    </script>
+</body>
+</html>
